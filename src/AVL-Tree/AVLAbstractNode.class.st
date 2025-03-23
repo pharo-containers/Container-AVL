@@ -38,6 +38,12 @@ AVLAbstractNode >> children [
 AVLAbstractNode >> do: aBlock [
 ]
 
+{ #category : 'enumerating' }
+AVLAbstractNode >> preorderDo: aBlock [
+	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 AVLAbstractNode >> height [
 	^ 0

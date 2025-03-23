@@ -53,6 +53,11 @@ AVLTree >> do: aBlock [
 	root do: aBlock
 ]
 
+{ #category : 'enumerating' }
+AVLTree >> preorderDo: aBlock [
+	root preorderDo: aBlock
+]
+
 { #category : 'public' }
 AVLTree >> height [
 	^ root height
@@ -77,19 +82,16 @@ AVLTree >> isBalanced [
 
 { #category : 'search' }
 AVLTree >> isLeaf [ 
-
 	^ root isLeaf 
 ]
 
 { #category : 'search' }
 AVLTree >> isNil [ 
-
 	^ root isNilNode  
 ]
 
 { #category : 'testing' }
 AVLTree >> isTotalBalanced [
-
 	^ root isTotalBalanced
 ]
 
@@ -104,7 +106,6 @@ AVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 		root := root successor: path.
 		root ifNil: [ root := AVLNilNode new ] ].
 	root checkRemovingPath: path.
-	
 	
 	^ toRemove contents
 ]

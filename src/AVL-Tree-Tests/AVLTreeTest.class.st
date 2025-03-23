@@ -338,3 +338,44 @@ AVLTreeTest >> testRemoveFromEmptyTree [
     self assert: executed description: 'The ifAbsent: block should execute when removing from an empty tree'.
     self assert: tree isEmpty description: 'Tree should remain empty after removal attempt'.
 ]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoEmptyTree[
+	"Test preorder traversal on an empty tree"
+	| result |
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result isEmpty
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoSingleElement[
+	"Test preorder traversal with one element"
+	| result |
+	tree add: 5.
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(5)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoMultipleElements[
+	"Test preorder traversal with multiple elements"
+	| result |
+	tree addAll: #(4 2 6 1 3 5 7).
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(4 2 1 3 6 5 7)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoAfterRotation[
+	"Test preorder traversal after a rotation"
+	| result |
+	tree add: 3.
+	tree add: 2.
+	tree add: 1. "Triggers LL rotation"
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(2 1 3)
+]

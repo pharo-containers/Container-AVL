@@ -152,6 +152,14 @@ AVLNode >> do: aFullBlockClosure [
 	right ifNotNil: [ right do: aFullBlockClosure ].
 ]
 
+{ #category : 'enumerating' }
+AVLNode >> preorderDo: aBlock
+	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
+	aBlock value: contents.
+	left ifNotNil: [ left preorderDo: aBlock ].
+	right ifNotNil: [ right preorderDo: aBlock ].
+]
+
 { #category : 'accessing' }
 AVLNode >> height [
 	| leftHeight rightHeight |

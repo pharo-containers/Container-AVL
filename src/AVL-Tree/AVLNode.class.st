@@ -153,6 +153,22 @@ AVLNode >> do: aFullBlockClosure [
 ]
 
 { #category : 'enumerating' }
+AVLNode >> inorderDo: aBlock
+	"Evaluate aBlock for each node in inorder traversal (left, root, right)"
+	left ifNotNil: [ left inorderDo: aBlock ].
+	aBlock value: contents.
+	right ifNotNil: [ right inorderDo: aBlock ].
+]
+
+{ #category : 'enumerating' }
+AVLNode >> postorderDo: aBlock
+	"Evaluate aBlock for each node in postorder traversal (left, right, root)"
+	left ifNotNil: [ left postorderDo: aBlock ].
+	right ifNotNil: [ right postorderDo: aBlock ].
+	aBlock value: contents.
+]
+
+{ #category : 'enumerating' }
 AVLNode >> preorderDo: aBlock
 	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
 	aBlock value: contents.

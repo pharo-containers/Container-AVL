@@ -54,6 +54,16 @@ AVLTree >> do: aBlock [
 ]
 
 { #category : 'enumerating' }
+AVLTree >> inorderDo: aBlock [
+	root inorderDo: aBlock
+]
+
+{ #category : 'enumerating' }
+AVLTree >> postorderDo: aBlock [
+	root postorderDo: aBlock
+]
+
+{ #category : 'enumerating' }
 AVLTree >> preorderDo: aBlock [
 	root preorderDo: aBlock
 ]

@@ -85,6 +85,47 @@ AVLTreeTest >> testHeight [
 ]
 
 { #category : #tests }
+AVLTreeTest >> testInorderDoEmptyTree
+	"Test inorder traversal on an empty tree"
+	| result |
+	result := OrderedCollection new.
+	tree inorderDo: [ :each | result add: each ].
+	self assert: result isEmpty
+]
+
+{ #category : #tests }
+AVLTreeTest >> testInorderDoSingleElement
+	"Test inorder traversal with one element"
+	| result |
+	tree add: 5.
+	result := OrderedCollection new.
+	tree inorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(5)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testInorderDoMultipleElements
+	"Test inorder traversal with multiple elements"
+	| result |
+	tree addAll: #(4 2 6 1 3 5 7).
+	result := OrderedCollection new.
+	tree inorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(1 2 3 4 5 6 7)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testInorderDoAfterRotation
+	"Test inorder traversal after a rotation"
+	| result |
+	tree add: 3.
+	tree add: 2.
+	tree add: 1. "Triggers LL rotation"
+	result := OrderedCollection new.
+	tree inorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(1 2 3)
+]
+
+{ #category : #tests }
 AVLTreeTest >> testIsBalanced [
 	self assert: tree isBalanced.
 	tree add: 4.
@@ -108,6 +149,88 @@ AVLTreeTest >> testIsLeaf [
 	tree add: 10.
 	tree add: 5.
 	self deny: tree isLeaf.
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPostorderDoEmptyTree
+	"Test postorder traversal on an empty tree"
+	| result |
+	result := OrderedCollection new.
+	tree postorderDo: [ :each | result add: each ].
+	self assert: result isEmpty
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPostorderDoSingleElement
+	"Test postorder traversal with one element"
+	| result |
+	tree add: 5.
+	result := OrderedCollection new.
+	tree postorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(5)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPostorderDoMultipleElements
+	"Test postorder traversal with multiple elements"
+	| result |
+	tree addAll: #(4 2 6 1 3 5 7).
+	result := OrderedCollection new.
+	tree postorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(1 3 2 5 7 6 4)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPostorderDoAfterRotation
+	"Test postorder traversal after a rotation"
+	| result |
+	tree add: 3.
+	tree add: 2.
+	tree add: 1. "Triggers LL rotation"
+	result := OrderedCollection new.
+	tree postorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(1 3 2)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoEmptyTree
+	"Test preorder traversal on an empty tree"
+	| result |
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result isEmpty
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoSingleElement
+	"Test preorder traversal with one element"
+	| result |
+	tree add: 5.
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(5)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoMultipleElements
+	"Test preorder traversal with multiple elements"
+	| result |
+	tree addAll: #(4 2 6 1 3 5 7).
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(4 2 1 3 6 5 7)
+]
+
+{ #category : #tests }
+AVLTreeTest >> testPreorderDoAfterRotation
+	"Test preorder traversal after a rotation"
+	| result |
+	tree add: 3.
+	tree add: 2.
+	tree add: 1. "Triggers LL rotation"
+	result := OrderedCollection new.
+	tree preorderDo: [ :each | result add: each ].
+	self assert: result asArray equals: #(2 1 3)
 ]
 
 { #category : #tests }
@@ -209,7 +332,7 @@ AVLTreeTest >> testSearch [
 	self assert: (tree search: 5) isNil.
 	self assert: (tree search: 4) equals: 4.
 	self assert: (tree search: 2) equals: 2.
-	self assert: (tree search: 10) equals: 10
+	self assert: (tree search:10) equals: 10
 ]
 
 { #category : #tests }
@@ -249,41 +372,4 @@ AVLTreeTest >> testSeriousRandomRemove [
 	toRemove do: [ :number | 
 		tree remove: number.
 		self assert: tree isTotalBalanced ]
-]
-
-{ #category : #tests }
-AVLTreeTest >> testPreorderDoEmptyTree[
-	| result |
-	result := OrderedCollection new.
-	tree preorderDo: [ :each | result add: each ].
-	self assert: result isEmpty
-]
-
-{ #category : #tests }
-AVLTreeTest >> testPreorderDoSingleElement[
-	| result |
-	tree add: 5.
-	result := OrderedCollection new.
-	tree preorderDo: [ :each | result add: each ].
-	self assert: result asArray equals: #(5)
-]
-
-{ #category : #tests }
-AVLTreeTest >> testPreorderDoMultipleElements[
-	| result |
-	tree addAll: #(4 2 6 1 3 5 7).
-	result := OrderedCollection new.
-	tree preorderDo: [ :each | result add: each ].
-	self assert: result asArray equals: #(4 2 1 3 6 5 7)
-]
-
-{ #category : #tests }
-AVLTreeTest >> testPreorderDoAfterRotation[
-	| result |
-	tree add: 3.
-	tree add: 2.
-	tree add: 1. "Triggers LL rotation"
-	result := OrderedCollection new.
-	tree preorderDo: [ :each | result add: each ].
-	self assert: result asArray equals: #(2 1 3)
 ]

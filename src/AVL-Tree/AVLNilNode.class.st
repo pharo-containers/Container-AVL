@@ -27,6 +27,14 @@ AVLNilNode >> checkRemovingPath: path [
 ]
 
 { #category : 'enumerating' }
+AVLNilNode >> inorderDo: aBlock[
+]
+
+{ #category : 'enumerating' }
+AVLNilNode >> postorderDo: aBlock{[
+]
+
+{ #category : 'enumerating' }
 AVLNilNode >> preorderDo: aBlock[
 ]
 

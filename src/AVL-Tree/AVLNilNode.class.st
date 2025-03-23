@@ -28,7 +28,6 @@ AVLNilNode >> checkRemovingPath: path [
 
 { #category : 'enumerating' }
 AVLNilNode >> preorderDo: aBlock[
-	"Do nothing for nil nodes"
 ]
 
 { #category : 'testing' }

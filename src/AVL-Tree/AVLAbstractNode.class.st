@@ -39,8 +39,7 @@ AVLAbstractNode >> do: aBlock [
 ]
 
 { #category : 'enumerating' }
-AVLAbstractNode >> preorderDo: aBlock [
-	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
+AVLAbstractNode >> preorderDo: aBlock[
 	self subclassResponsibility
 ]
 

@@ -22,79 +22,69 @@ Author: Milton
 Date: October 20, 2023
 "
 Class {
-	#name : 'AVLTree',
+	#name : 'CTAVLTree',
 	#superclass : 'Collection',
 	#instVars : [
 		'root'
 	],
-	#category : 'AVL-Tree',
-	#package : 'AVL-Tree'
+	#category : 'Containers-AVL-Tree',
+	#package : 'Containers-AVL-Tree'
 }
 
-{ #category : #adding }
-AVLTree >> add: newObject [
+{ #category : 'adding' }
+CTAVLTree >> add: newObject [
     newObject ifNil: [ Error signal: 'Cannot add nil to AVLTree' ].
     root := root addChild: newObject.
     ^ newObject
 ]
 
-{ #category : #accessing }
-AVLTree >> size [
-	^ root isNilNode 
-		ifTrue: [ 0 ]
-		ifFalse: [ | count |
-			count := 0.
-			root do: [ :each | count := count + 1 ].
-			count ]
-]
-
 { #category : 'enumerating' }
-AVLTree >> do: aBlock [ 
+CTAVLTree >> do: aBlock [ 
 	root do: aBlock
 ]
 
 { #category : 'public' }
-AVLTree >> height [
+CTAVLTree >> height [
 	^ root height
 ]
 
 { #category : 'testing' }
-AVLTree >> includes: anObject [
+CTAVLTree >> includes: anObject [
 	anObject ifNil: [ ^ nil ].
 	^ (self search: anObject) notNil
 ]
 
 { #category : 'initialization' }
-AVLTree >> initialize [
+CTAVLTree >> initialize [
 	super initialize.
-	root := AVLNilNode new.
+	root := CTAVLNilNode new.
 ]
 
 { #category : 'testing' }
-AVLTree >> isBalanced [
+CTAVLTree >> isBalanced [
 	^ root isBalanced
 ]
 
 { #category : 'search' }
-AVLTree >> isLeaf [ 
+CTAVLTree >> isLeaf [ 
 
 	^ root isLeaf 
 ]
 
 { #category : 'search' }
-AVLTree >> isNil [ 
+CTAVLTree >> isNil [ 
 
 	^ root isNilNode  
 ]
 
 { #category : 'testing' }
-AVLTree >> isTotalBalanced [
+CTAVLTree >> isTotalBalanced [
 
 	^ root isTotalBalanced
 ]
 
 { #category : 'removing' }
-AVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
+CTAVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 	| toRemove path |
 	path := OrderedCollection new.
 	toRemove := root remove: oldObject path: path.
@@ -102,7 +92,7 @@ AVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 	
 	toRemove == root ifTrue: [ 
 		root := root successor: path.
-		root ifNil: [ root := AVLNilNode new ] ].
+		root ifNil: [ root := CTAVLNilNode new ] ].
 	root checkRemovingPath: path.
 	
 	
@@ -110,6 +100,16 @@ AVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 ]
 
 { #category : 'search' }
-AVLTree >> search: anInteger [ 
+CTAVLTree >> search: anInteger [ 
 	^ root search: anInteger
+]
+
+{ #category : 'accessing' }
+CTAVLTree >> size [
+	^ root isNilNode 
+		ifTrue: [ 0 ]
+		ifFalse: [ | count |
+			count := 0.
+			root do: [ :each | count := count + 1 ].
+			count ]
 ]

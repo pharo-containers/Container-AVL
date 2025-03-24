@@ -1,15 +1,15 @@
 Class {
-	#name : 'AVLTreeInspectorTest',
+	#name : 'CTAVLTreeInspectorTest',
 	#superclass : 'TestCase',
-	#category : 'AVL-Tree-Inspector',
-	#package : 'AVL-Tree-Inspector'
+	#category : 'Containers-AVL-Tree-Inspector',
+	#package : 'Containers-AVL-Tree-Inspector'
 }
 
 { #category : 'tests' }
-AVLTreeInspectorTest >> testCreateCanvas [
+CTAVLTreeInspectorTest >> testCreateCanvas [
 
 	| tree presenter |
-	tree := tree := AVLTree new.
+	tree := tree := CTAVLTree new.
 	tree addAll: { 4. 2. 3. 10 }.
 	
 	presenter := tree inspectorCanvas.
@@ -18,11 +18,11 @@ AVLTreeInspectorTest >> testCreateCanvas [
 ]
 
 { #category : 'tests' }
-AVLTreeInspectorTest >> testTree [
+CTAVLTreeInspectorTest >> testTree [
 	
     |visualizer tree |
-    tree := AVLTree new.
-    visualizer := AVLTreeVisualizer new.
+    tree := CTAVLTree new.
+    visualizer := CTAVLTreeVisualizer new.
     visualizer tree: tree.
     
     self assert: (visualizer tree) equals: tree.

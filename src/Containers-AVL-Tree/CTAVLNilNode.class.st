@@ -11,22 +11,22 @@ Author: Milton Mamani
 Date: October 20, 2023
 "
 Class {
-	#name : 'AVLNilNode',
-	#superclass : 'AVLAbstractNode',
-	#category : 'AVL-Tree',
-	#package : 'AVL-Tree'
+	#name : 'CTAVLNilNode',
+	#superclass : 'CTAVLAbstractNode',
+	#category : 'Containers-AVL-Tree',
+	#package : 'Containers-AVL-Tree'
 }
 
 { #category : 'adding' }
-AVLNilNode >> addChild: newObject [
-	^ AVLNode with: newObject
+CTAVLNilNode >> addChild: newObject [
+	^ CTAVLNode with: newObject
 ]
 
 { #category : 'private' }
-AVLNilNode >> checkRemovingPath: path [
+CTAVLNilNode >> checkRemovingPath: path [
 ]
 
 { #category : 'testing' }
-AVLNilNode >> isNilNode [
+CTAVLNilNode >> isNilNode [
 	^ true
 ]

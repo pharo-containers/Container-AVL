@@ -13,56 +13,56 @@ Author: Milton Mamani
 Date: October 20, 2023
 "
 Class {
-	#name : 'AVLAbstractNode',
+	#name : 'CTAVLAbstractNode',
 	#superclass : 'Object',
-	#category : 'AVL-Tree',
-	#package : 'AVL-Tree'
+	#category : 'Containers-AVL-Tree',
+	#package : 'Containers-AVL-Tree'
 }
 
 { #category : 'adding' }
-AVLAbstractNode >> addChild: newObject [
+CTAVLAbstractNode >> addChild: newObject [
 	^ self subclassResponsibility
 ]
 
 { #category : 'private' }
-AVLAbstractNode >> checkRemovingPath: path [
+CTAVLAbstractNode >> checkRemovingPath: path [
 	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
-AVLAbstractNode >> children [
+CTAVLAbstractNode >> children [
 	^ {  }
 ]
 
 { #category : 'enumerating' }
-AVLAbstractNode >> do: aBlock [
+CTAVLAbstractNode >> do: aBlock [
 ]
 
 { #category : 'accessing' }
-AVLAbstractNode >> height [
+CTAVLAbstractNode >> height [
 	^ 0
 ]
 
 { #category : 'testing' }
-AVLAbstractNode >> isBalanced [
+CTAVLAbstractNode >> isBalanced [
 	^ true
 ]
 
 { #category : 'testing' }
-AVLAbstractNode >> isNilNode [
+CTAVLAbstractNode >> isNilNode [
 	^ false
 ]
 
 { #category : 'testing' }
-AVLAbstractNode >> isTotalBalanced [
+CTAVLAbstractNode >> isTotalBalanced [
 	^ true
 ]
 
 { #category : 'removing' }
-AVLAbstractNode >> remove: anObject path: list [
+CTAVLAbstractNode >> remove: anObject path: list [
 	^ nil
 ]
 
 { #category : 'accessing' }
-AVLAbstractNode >> withAllChildren: aCollection [ 
+CTAVLAbstractNode >> withAllChildren: aCollection [ 
 ]

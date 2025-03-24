@@ -16,26 +16,26 @@ Author: Milton Mamani
 Date: October 20, 2023
 "
 Class {
-	#name : 'AVLNode',
-	#superclass : 'AVLAbstractNode',
+	#name : 'CTAVLNode',
+	#superclass : 'CTAVLAbstractNode',
 	#instVars : [
 		'left',
 		'contents',
 		'right'
 	],
-	#category : 'AVL-Tree',
-	#package : 'AVL-Tree'
+	#category : 'Containers-AVL-Tree',
+	#package : 'Containers-AVL-Tree'
 }
 
 { #category : 'instance creation' }
-AVLNode class >> with: anInteger [ 
+CTAVLNode class >> with: anInteger [ 
 	^ self new
 		contents: anInteger;
 		yourself
 ]
 
 { #category : 'adding' }
-AVLNode >> add: anInteger path: list [
+CTAVLNode >> add: anInteger path: list [
 	anInteger < contents  ifTrue: [ 
 		left 
 			ifNil: [ 
@@ -56,7 +56,7 @@ AVLNode >> add: anInteger path: list [
 ]
 
 { #category : 'adding' }
-AVLNode >> addChild: newObject [
+CTAVLNode >> addChild: newObject [
 	| path |
 	path := OrderedCollection with: nil -> self.
 	self add: newObject path: path.
@@ -65,7 +65,7 @@ AVLNode >> addChild: newObject [
 ]
 
 { #category : 'private' }
-AVLNode >> balance: index path: aCollection [ 
+CTAVLNode >> balance: index path: aCollection [ 
 	| x y z a b c |
 	z := aCollection at: index.
 	y := aCollection at: index + 1.
@@ -85,7 +85,7 @@ AVLNode >> balance: index path: aCollection [
 ]
 
 { #category : 'private' }
-AVLNode >> balanceZ: z y: y x: x [
+CTAVLNode >> balanceZ: z y: y x: x [
 	| a b c |
 	c := z value.
 	b := y value.
@@ -102,7 +102,7 @@ AVLNode >> balanceZ: z y: y x: x [
 ]
 
 { #category : 'private' }
-AVLNode >> checkPath: aCollection [ 
+CTAVLNode >> checkPath: aCollection [ 
 	aCollection size < 3 ifTrue: [ ^ self ].
 	(1 to: aCollection size - 2) reverseDo: [ :index |
 		| assoc |
@@ -115,7 +115,7 @@ AVLNode >> checkPath: aCollection [
 ]
 
 { #category : 'private' }
-AVLNode >> checkRemovingPath: path [
+CTAVLNode >> checkRemovingPath: path [
 	path reverseDo: [ :node | 
 		node isBalanced ifFalse: [ | z y x |
 			z := node.
@@ -125,35 +125,35 @@ AVLNode >> checkRemovingPath: path [
 ]
 
 { #category : 'accessing' }
-AVLNode >> children [
+CTAVLNode >> children [
 	^ { left. right } reject: #isNil
 ]
 
 { #category : 'enumerating' }
-AVLNode >> childrenDo: aFullBlockClosure [ 
+CTAVLNode >> childrenDo: aFullBlockClosure [ 
 	left ifNotNil: aFullBlockClosure.
 	right ifNotNil: aFullBlockClosure.
 ]
 
 { #category : 'accessing' }
-AVLNode >> contents [
+CTAVLNode >> contents [
 	^ contents
 ]
 
 { #category : 'accessing' }
-AVLNode >> contents: anInteger [ 
+CTAVLNode >> contents: anInteger [ 
 	contents := anInteger
 ]
 
 { #category : 'enumerating' }
-AVLNode >> do: aFullBlockClosure [ 
+CTAVLNode >> do: aFullBlockClosure [ 
 	left ifNotNil: [ left do: aFullBlockClosure ].
 	aFullBlockClosure value: self contents.
 	right ifNotNil: [ right do: aFullBlockClosure ].
 ]
 
 { #category : 'accessing' }
-AVLNode >> height [
+CTAVLNode >> height [
 	| leftHeight rightHeight |
 	leftHeight := left ifNil: [ 0 ] ifNotNil: [ left height ].
 	rightHeight := right ifNil: [ 0 ] ifNotNil: [ right height ].
@@ -162,7 +162,7 @@ AVLNode >> height [
 ]
 
 { #category : 'testing' }
-AVLNode >> isBalanced [
+CTAVLNode >> isBalanced [
 	| leftHeight rightHeight |
 	leftHeight := left ifNil: [ 0 ] ifNotNil: [ left height ].
 	rightHeight := right ifNil: [ 0 ] ifNotNil: [ right height ].
@@ -171,12 +171,12 @@ AVLNode >> isBalanced [
 ]
 
 { #category : 'testing' }
-AVLNode >> isLeaf [
+CTAVLNode >> isLeaf [
 	^ left isNil and: [ right isNil ]
 ]
 
 { #category : 'testing' }
-AVLNode >> isTotalBalanced [
+CTAVLNode >> isTotalBalanced [
 	^ self isBalanced 
 		and: [ (left isNil or: [ left isTotalBalanced ]) 
 			and: [ right isNil or: [ right isTotalBalanced ] ] ]
@@ -185,7 +185,7 @@ AVLNode >> isTotalBalanced [
 ]
 
 { #category : 'accessing' }
-AVLNode >> largerNode [
+CTAVLNode >> largerNode [
 	| size1 size2 isLeft |
 	size1 := left ifNil: [ 0 ] ifNotNil: [ left height ].
 	size2 := right ifNil: [ 0 ] ifNotNil: [ right height ].
@@ -194,17 +194,17 @@ AVLNode >> largerNode [
 ]
 
 { #category : 'accessing' }
-AVLNode >> left [
+CTAVLNode >> left [
 	^ left
 ]
 
 { #category : 'accessing' }
-AVLNode >> left: aNode [ 
+CTAVLNode >> left: aNode [ 
 	left := aNode
 ]
 
 { #category : 'private' }
-AVLNode >> llrotationZ: z y: y x: x [ 
+CTAVLNode >> llrotationZ: z y: y x: x [ 
 	| a3 a4 new |
 	a3 := y right.
 	a4 := z right.
@@ -216,7 +216,7 @@ AVLNode >> llrotationZ: z y: y x: x [
 ]
 
 { #category : 'private' }
-AVLNode >> lrrotationZ: z y: y x: x [ 
+CTAVLNode >> lrrotationZ: z y: y x: x [ 
 	| a1 a2 a3 new |
 	a1 := y left.
 	a2 := x left.
@@ -229,12 +229,12 @@ AVLNode >> lrrotationZ: z y: y x: x [
 ]
 
 { #category : 'printing' }
-AVLNode >> printOn: stream [
+CTAVLNode >> printOn: stream [
 	contents printOn: stream
 ]
 
 { #category : 'removing' }
-AVLNode >> remove: anObject path: list [
+CTAVLNode >> remove: anObject path: list [
 	contents = anObject ifTrue: [
 		^ self
 	] ifFalse: [ 
@@ -257,7 +257,7 @@ AVLNode >> remove: anObject path: list [
 ]
 
 { #category : 'removing' }
-AVLNode >> removeMinimum: list [
+CTAVLNode >> removeMinimum: list [
 	| res |
 	left ifNil: [
 		res := self class with: contents.
@@ -274,17 +274,17 @@ AVLNode >> removeMinimum: list [
 ]
 
 { #category : 'accessing' }
-AVLNode >> right [
+CTAVLNode >> right [
 	^ right
 ]
 
 { #category : 'accessing' }
-AVLNode >> right: anObject [ 
+CTAVLNode >> right: anObject [ 
 	right := anObject
 ]
 
 { #category : 'private' }
-AVLNode >> rlrotationZ: z y: y x: x [ 
+CTAVLNode >> rlrotationZ: z y: y x: x [ 
 	| a1 a2 a3 a4 new |
 	a1 := z left.
 	a2 := x left.
@@ -297,7 +297,7 @@ AVLNode >> rlrotationZ: z y: y x: x [
 ]
 
 { #category : 'private' }
-AVLNode >> rrrotationZ: z y: y x: x [
+CTAVLNode >> rrrotationZ: z y: y x: x [
 	"right right rotation"
 	| a1 a2 new |
 	a1 := z left.
@@ -310,7 +310,7 @@ AVLNode >> rrrotationZ: z y: y x: x [
 ]
 
 { #category : 'search' }
-AVLNode >> search: anInteger [ 
+CTAVLNode >> search: anInteger [ 
 	^ contents = anInteger ifTrue: [
 		contents
 	] ifFalse: [
@@ -323,7 +323,7 @@ AVLNode >> search: anInteger [
 ]
 
 { #category : 'removing' }
-AVLNode >> successor: list [
+CTAVLNode >> successor: list [
 	^ self isLeaf
 		ifTrue: [ nil ]
 		ifFalse: [ 
@@ -344,7 +344,7 @@ AVLNode >> successor: list [
 ]
 
 { #category : 'accessing' }
-AVLNode >> withAllChildren: aCollection [ 
+CTAVLNode >> withAllChildren: aCollection [ 
 	aCollection add: self.
 	self childrenDo: [ :child | child withAllChildren: aCollection ]
 ]

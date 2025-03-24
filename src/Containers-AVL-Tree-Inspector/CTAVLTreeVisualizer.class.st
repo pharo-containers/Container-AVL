@@ -2,19 +2,19 @@
 A visualization for the inspector for AVLTree, it creates an inspector tab to visualize the nodes of the tree
 "
 Class {
-	#name : 'AVLTreeVisualizer',
+	#name : 'CTAVLTreeVisualizer',
 	#superclass : 'RSAbstractContainerBuilder',
 	#instVars : [
 		'tree'
 	],
-	#category : 'AVL-Tree-Inspector',
-	#package : 'AVL-Tree-Inspector'
+	#category : 'Containers-AVL-Tree-Inspector',
+	#package : 'Containers-AVL-Tree-Inspector'
 }
 
 { #category : 'events' }
-AVLTreeVisualizer >> addFindingPath: number [
+CTAVLTreeVisualizer >> addFindingPath: number [
 	| node path link |
-	node := (AVLTree >> #checkPath:) ast.
+	node := (CTAVLTree >> #checkPath:) ast.
 	path := OrderedCollection new.
 	link := MetaLink new
 		arguments: #(context);
@@ -28,7 +28,7 @@ AVLTreeVisualizer >> addFindingPath: number [
 ]
 
 { #category : 'events' }
-AVLTreeVisualizer >> addNewNumber [
+CTAVLTreeVisualizer >> addNewNumber [
 	| number |
 	number := self readNumber.
 	number ifNil: [ ^ self ].
@@ -36,7 +36,7 @@ AVLTreeVisualizer >> addNewNumber [
 ]
 
 { #category : 'hooks' }
-AVLTreeVisualizer >> addPlusButtom [
+CTAVLTreeVisualizer >> addPlusButtom [
 	| label |
 	label := RSLabel new 
 		text: '+1';
@@ -49,7 +49,7 @@ AVLTreeVisualizer >> addPlusButtom [
 ]
 
 { #category : 'events' }
-AVLTreeVisualizer >> addWithAnimation: number [
+CTAVLTreeVisualizer >> addWithAnimation: number [
 	| path newNode root lastPosition |
 	path := self addFindingPath: number.
 	path inspect.
@@ -75,7 +75,7 @@ AVLTreeVisualizer >> addWithAnimation: number [
 ]
 
 { #category : 'private' }
-AVLTreeVisualizer >> createNode: node [ 
+CTAVLTreeVisualizer >> createNode: node [ 
 	| label w h back |
 	label := RSLabel new 
 		text: node contents asString;
@@ -99,12 +99,12 @@ AVLTreeVisualizer >> createNode: node [
 ]
 
 { #category : 'accessing - defaults' }
-AVLTreeVisualizer >> defaultContainer [
+CTAVLTreeVisualizer >> defaultContainer [
 	^ RSCanvas new @ RSCanvasController simple
 ]
 
 { #category : 'events' }
-AVLTreeVisualizer >> readNumber [
+CTAVLTreeVisualizer >> readNumber [
 	| answer |
 	answer := UIManager default request: 'Enter a number:' initialAnswer: '4'.
 	answer ifNil: [ ^ nil ].
@@ -115,7 +115,7 @@ AVLTreeVisualizer >> readNumber [
 ]
 
 { #category : 'hooks' }
-AVLTreeVisualizer >> renderIn: aCanvas [
+CTAVLTreeVisualizer >> renderIn: aCanvas [
 	| children |
 	children := tree allChildren collect: [ :child | self createNode: child ].
 	aCanvas addAll: children.
@@ -129,11 +129,11 @@ AVLTreeVisualizer >> renderIn: aCanvas [
 ]
 
 { #category : 'accessing' }
-AVLTreeVisualizer >> tree [
+CTAVLTreeVisualizer >> tree [
 	^ tree
 ]
 
 { #category : 'accessing' }
-AVLTreeVisualizer >> tree: anAVLTree [
+CTAVLTreeVisualizer >> tree: anAVLTree [
 	tree := anAVLTree
 ]

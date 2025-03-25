@@ -43,6 +43,21 @@ CTAVLTree >> do: aBlock [
 	root do: aBlock
 ]
 
+{ #category : 'enumerating' }
+CTAVLTree >> inorderDo: aBlock [
+	root inorderDo: aBlock
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> postorderDo: aBlock [
+	root postorderDo: aBlock
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> preorderDo: aBlock [
+	root preorderDo: aBlock
+]
+
 { #category : 'public' }
 CTAVLTree >> height [
 	^ root height
@@ -67,19 +82,16 @@ CTAVLTree >> isBalanced [
 
 { #category : 'search' }
 CTAVLTree >> isLeaf [ 
-
 	^ root isLeaf 
 ]
 
 { #category : 'search' }
 CTAVLTree >> isNil [ 
-
 	^ root isNilNode  
 ]
 
 { #category : 'testing' }
 CTAVLTree >> isTotalBalanced [
-
 	^ root isTotalBalanced
 ]
 
@@ -94,7 +106,6 @@ CTAVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 		root := root successor: path.
 		root ifNil: [ root := CTAVLNilNode new ] ].
 	root checkRemovingPath: path.
-	
 	
 	^ toRemove contents
 ]

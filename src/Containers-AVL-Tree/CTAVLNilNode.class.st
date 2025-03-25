@@ -26,6 +26,21 @@ CTAVLNilNode >> addChild: newObject [
 CTAVLNilNode >> checkRemovingPath: path [
 ]
 
+{ #category : 'enumerating' }
+CTAVLNilNode >> inorderDo: aBlock [
+	"Empty implementation for nil node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> postorderDo: aBlock [
+	"Empty implementation for nil node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> preorderDo: aBlock [
+	"Empty implementation for nil node"
+]
+
 { #category : 'testing' }
 CTAVLNilNode >> isNilNode [
 	^ true

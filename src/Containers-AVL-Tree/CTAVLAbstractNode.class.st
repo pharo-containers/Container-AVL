@@ -38,6 +38,24 @@ CTAVLAbstractNode >> children [
 CTAVLAbstractNode >> do: aBlock [
 ]
 
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> inorderDo: aBlock
+	"Evaluate aBlock for each node in inorder traversal (left, root, right)"
+	self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> postorderDo: aBlock
+	"Evaluate aBlock for each node in postorder traversal (left, right, root)"
+	self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> preorderDo: aBlock
+	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
+	self subclassResponsibility
+]
+
 { #category : 'accessing' }
 CTAVLAbstractNode >> height [
 	^ 0

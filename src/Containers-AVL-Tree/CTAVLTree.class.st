@@ -43,6 +43,11 @@ CTAVLTree >> do: aBlock [
 	root do: aBlock
 ]
 
+{ #category : 'testing' }
+CTAVLTree >> hasNoChildren [ 
+	^ root nodeSize = 0
+]
+
 { #category : 'public' }
 CTAVLTree >> height [
 	^ root height
@@ -50,7 +55,7 @@ CTAVLTree >> height [
 
 { #category : 'testing' }
 CTAVLTree >> includes: anObject [
-	anObject ifNil: [ ^ nil ].
+	anObject ifNil: [ ^ false ].
 	^ (self search: anObject) notNil
 ]
 
@@ -65,21 +70,8 @@ CTAVLTree >> isBalanced [
 	^ root isBalanced
 ]
 
-{ #category : 'search' }
-CTAVLTree >> isLeaf [ 
-
-	^ root isLeaf 
-]
-
-{ #category : 'search' }
-CTAVLTree >> isNil [ 
-
-	^ root isNilNode  
-]
-
 { #category : 'testing' }
 CTAVLTree >> isTotalBalanced [
-
 	^ root isTotalBalanced
 ]
 
@@ -95,7 +87,6 @@ CTAVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
 		root ifNil: [ root := CTAVLNilNode new ] ].
 	root checkRemovingPath: path.
 	
-	
 	^ toRemove contents
 ]
 
@@ -106,10 +97,5 @@ CTAVLTree >> search: anInteger [
 
 { #category : 'accessing' }
 CTAVLTree >> size [
-	^ root isNilNode 
-		ifTrue: [ 0 ]
-		ifFalse: [ | count |
-			count := 0.
-			root do: [ :each | count := count + 1 ].
-			count ]
+	^ root nodeSize
 ]

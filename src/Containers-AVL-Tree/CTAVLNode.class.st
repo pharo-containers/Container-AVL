@@ -153,7 +153,7 @@ CTAVLNode >> do: aFullBlockClosure [
 ]
 
 { #category : 'enumerating' }
-CTAVLNode >> inorderDo: aBlock
+CTAVLNode >> inorderDo: aBlock[
 	"Evaluate aBlock for each node in inorder traversal (left, root, right)"
 	left ifNotNil: [ left inorderDo: aBlock ].
 	aBlock value: contents.
@@ -161,7 +161,7 @@ CTAVLNode >> inorderDo: aBlock
 ]
 
 { #category : 'enumerating' }
-CTAVLNode >> postorderDo: aBlock
+CTAVLNode >> postorderDo: aBlock[
 	"Evaluate aBlock for each node in postorder traversal (left, right, root)"
 	left ifNotNil: [ left postorderDo: aBlock ].
 	right ifNotNil: [ right postorderDo: aBlock ].
@@ -169,7 +169,7 @@ CTAVLNode >> postorderDo: aBlock
 ]
 
 { #category : 'enumerating' }
-CTAVLNode >> preorderDo: aBlock
+CTAVLNode >> preorderDo: aBlock[
 	"Evaluate aBlock for each node in preorder traversal (root, left, right)"
 	aBlock value: contents.
 	left ifNotNil: [ left preorderDo: aBlock ].

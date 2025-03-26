@@ -1,11 +1,7 @@
 "
 AVLNilNode is a special sentinel node used in AVL trees to represent the absence of a node.
 
-In an AVL tree, `AVLNilNode` is used to represent the missing node. It serves as a placeholder for null references, making it easier to perform tree operations without having to deal with special cases for missing children.
-
-`AVLNilNode` is a subclass of `AVLAbstractNode`, and it provides default implementations for methods that are specific to nil nodes, such as `addChild:` and `isNilNode`.
-
-This class allows AVL trees to be implemented more cleanly and efficiently by treating missing nodes as instances of `AVLNilNode`.
+In an AVL tree, `AVLNilNode` is used as a placeholder for null references, making it easier to perform tree operations without special cases for missing children. It fully implements the Null Object pattern.
 
 Author: Milton Mamani
 Date: October 20, 2023
@@ -24,9 +20,50 @@ CTAVLNilNode >> addChild: newObject [
 
 { #category : 'private' }
 CTAVLNilNode >> checkRemovingPath: path [
+	"Do nothing for nil node"
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> children [
+	^ #()
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> childrenDo: aBlock [
+	"Do nothing for nil node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> do: aBlock [
+	"Do nothing for nil node"
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> height [
+	^ 0
 ]
 
 { #category : 'testing' }
-CTAVLNilNode >> isNilNode [
+CTAVLNilNode >> isBalanced [
 	^ true
+]
+
+{ #category : 'testing' }
+CTAVLNilNode >> isTotalBalanced [
+	^ true
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> nodeSize [
+	^ 0
+]
+
+{ #category : 'removing' }
+CTAVLNilNode >> remove: anObject path: list [
+	^ nil
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> withAllChildren: aCollection [
+	"Do nothing for nil node"
 ]

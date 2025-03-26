@@ -31,11 +31,17 @@ CTAVLAbstractNode >> checkRemovingPath: path [
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> children [
-	^ {  }
+	^ #()
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> childrenDo: aBlock [
+	^ self subclassResponsibility
 ]
 
 { #category : 'enumerating' }
 CTAVLAbstractNode >> do: aBlock [
+	"Default is to do nothing"
 ]
 
 { #category : 'accessing' }
@@ -49,13 +55,13 @@ CTAVLAbstractNode >> isBalanced [
 ]
 
 { #category : 'testing' }
-CTAVLAbstractNode >> isNilNode [
-	^ false
-]
-
-{ #category : 'testing' }
 CTAVLAbstractNode >> isTotalBalanced [
 	^ true
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> nodeSize [
+	^ self subclassResponsibility
 ]
 
 { #category : 'removing' }
@@ -65,4 +71,5 @@ CTAVLAbstractNode >> remove: anObject path: list [
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> withAllChildren: aCollection [ 
+	"Default is to do nothing"
 ]

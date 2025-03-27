@@ -47,9 +47,10 @@ CTAVLTreeTest >> testAddForRRrotation [
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAddNilRaisesError [
-    self should: [ tree add: nil ] raise: Error withExceptionDo: [ :ex |
-        self assert: ex messageText equals: 'Cannot add nil to AVLTree' ]
+CTAVLTreeTest >> testAddNil [
+    tree add: nil.
+    self assert: (tree includes: nil).
+    self assert: tree size equals: 1.
 ]
 
 { #category : 'tests' }

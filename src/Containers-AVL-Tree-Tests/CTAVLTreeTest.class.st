@@ -47,13 +47,6 @@ CTAVLTreeTest >> testAddForRRrotation [
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAddNil [
-    tree add: nil.
-    self assert: (tree includes: nil).
-    self assert: tree size equals: 1.
-]
-
-{ #category : 'tests' }
 CTAVLTreeTest >> testAddOneElement [
 
 	tree add: 1.

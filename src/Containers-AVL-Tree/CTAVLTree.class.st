@@ -99,3 +99,8 @@ CTAVLTree >> search: anInteger [
 CTAVLTree >> size [
 	^ root nodeSize
 ]
+
+{ #category : 'accessing' }
+CTAVLTree >> root [
+	^ root
+]

@@ -180,7 +180,8 @@ CTAVLNode >> left [
 
 { #category : 'accessing' }
 CTAVLNode >> left: aNode [ 
-	left := aNode
+	left := aNode.
+	aNode parent: self
 ]
 
 { #category : 'private' }
@@ -261,8 +262,9 @@ CTAVLNode >> right [
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> right: anObject [ 
-	right := anObject
+CTAVLNode >> right: aNode [ 
+	right := aNode.
+	aNode parent: self 
 ]
 
 { #category : 'private' }

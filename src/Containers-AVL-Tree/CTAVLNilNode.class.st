@@ -28,6 +28,11 @@ CTAVLNilNode >> children [
 	^ #()
 ]
 
+{ #category : 'accessing' }
+CTAVLNilNode >> allChildren [
+	^ #()
+]
+
 { #category : 'enumerating' }
 CTAVLNilNode >> childrenDo: aBlock [
 	"Do nothing for nil node"

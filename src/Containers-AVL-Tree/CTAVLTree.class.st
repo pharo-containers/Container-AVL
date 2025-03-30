@@ -103,3 +103,9 @@ CTAVLTree >> size [
 CTAVLTree >> root [
 	^ root
 ]
+
+{ #category : 'accessing' }
+CTAVLTree >> allChildren [
+  "Returns a collection of all child nodes in the tree."
+  ^ root ifNil: [#()] ifNotNil: [root allChildren].
+]

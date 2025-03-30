@@ -119,6 +119,17 @@ CTAVLNode >> children [
 	^ { left. right }
 ]
 
+{ #category : 'accessing' }
+CTAVLNode >> allChildren [
+	"Collects all child nodes recursively."
+	| children |
+	children := OrderedCollection new.
+	self left ifNotNil: [children addAll: self left allChildren].
+	self right ifNotNil: [children addAll: self right allChildren].
+	children add: self.
+	^ children.
+]
+
 { #category : 'enumerating' }
 CTAVLNode >> childrenDo: aBlock [
 	left childrenDo: aBlock.

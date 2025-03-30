@@ -37,6 +37,11 @@ CTAVLAbstractNode >> children [
 	^ #()
 ]
 
+{ #category : 'accessing' }
+CTAVLAbstractNode >> allChildren [
+	^ #()
+]
+
 { #category : 'enumerating' }
 CTAVLAbstractNode >> childrenDo: aBlock [
 	^ self subclassResponsibility

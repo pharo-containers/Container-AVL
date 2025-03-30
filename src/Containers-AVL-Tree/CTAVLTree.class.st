@@ -33,7 +33,6 @@ Class {
 
 { #category : 'adding' }
 CTAVLTree >> add: newObject [
-    newObject ifNil: [ Error signal: 'Cannot add nil to AVLTree' ].
     root := root addChild: newObject.
     ^ newObject
 ]

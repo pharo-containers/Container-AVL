@@ -334,3 +334,19 @@ CTAVLTreeTest >> testSizeOneElement [
 	tree add: 42.
 	self assert: tree size equals: 1
 ]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testChildParentRelationship [
+	tree add: 50.
+	tree add: 30.
+	tree add: 70.
+	
+	self assert: (tree root left parent) equals: tree root.
+	self assert: (tree root right parent) equals: tree root
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRootHasNoParent [
+	tree add: 14.
+	self assert: tree root parent isNil
+]

@@ -15,7 +15,7 @@ Class {
 
 { #category : 'adding' }
 CTAVLNilNode >> addChild: newObject [
-	^ CTAVLNode with: newObject
+	^ self parent replace: self with: (CTAVLNode with: newObject)
 ]
 
 { #category : 'private' }
@@ -25,6 +25,11 @@ CTAVLNilNode >> checkRemovingPath: path [
 
 { #category : 'accessing' }
 CTAVLNilNode >> children [
+	^ #()
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> allChildren [
 	^ #()
 ]
 

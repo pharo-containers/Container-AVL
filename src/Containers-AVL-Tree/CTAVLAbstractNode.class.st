@@ -15,6 +15,9 @@ Date: October 20, 2023
 Class {
 	#name : 'CTAVLAbstractNode',
 	#superclass : 'Object',
+	#instVars : [
+		'parent'
+	],
 	#category : 'Containers-AVL-Tree',
 	#package : 'Containers-AVL-Tree'
 }
@@ -31,6 +34,11 @@ CTAVLAbstractNode >> checkRemovingPath: path [
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> children [
+	^ #()
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> allChildren [
 	^ #()
 ]
 
@@ -72,4 +80,14 @@ CTAVLAbstractNode >> remove: anObject path: list [
 { #category : 'accessing' }
 CTAVLAbstractNode >> withAllChildren: aCollection [ 
 	"Default is to do nothing"
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> parent [
+	^ parent
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> parent: aNode [
+	parent := aNode
 ]

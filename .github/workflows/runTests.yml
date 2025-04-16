@@ -38,6 +38,6 @@ jobs:
         uses: akevalion/PharoTestsAction@v1
         with:
           pharo: 'pharo11'
-          baseline: 'AVLTree'
+          baseline: 'ContainersAVLTree'
           group: 'default'
           tests: 'AVL-Tree'

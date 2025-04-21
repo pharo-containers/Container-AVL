@@ -37,7 +37,7 @@ jobs:
         id: tests
         uses: akevalion/PharoTestsAction@v1
         with:
-          pharo: 'pharo11'
+          pharo: 'pharo12'
           baseline: 'ContainersAVLTree'
           group: 'default'
           tests: 'AVL-Tree'

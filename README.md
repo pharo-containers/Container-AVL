@@ -10,8 +10,8 @@ To install `AVL`, go to the Playground (Ctrl+OW) in your [Pharo](https://pharo.o
 
 ```st
 Metacello new
-  baseline: 'AVLTree';
-  repository: 'github://pharo-containers/ContainersAVLTree:main';
+  baseline: 'ContainersAVLTree';
+  repository: 'github://pharo-containers/Container-AVL:main';
   load
 ```
 
@@ -21,7 +21,7 @@ If you want to add a dependency on `linear-models` to your project, include the 
 
 ```st
 spec
-  baseline: 'AVL'
-  with: [ spec repository: 'github://pharo-containers/AVL' ].
+  baseline: 'ContainersAVLTree'
+  with: [ spec repository: 'github://pharo-containers/Container-AVL' ].
 ```
 

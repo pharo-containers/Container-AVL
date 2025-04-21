@@ -11,7 +11,7 @@ To install `AVL`, go to the Playground (Ctrl+OW) in your [Pharo](https://pharo.o
 ```st
 Metacello new
   baseline: 'AVLTree';
-  repository: 'github://pharo-containers/AVL:main';
+  repository: 'github://pharo-containers/ContainersAVLTree:main';
   load
 ```
 

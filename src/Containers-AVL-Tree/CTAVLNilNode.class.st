@@ -13,62 +13,20 @@ Class {
 	#package : 'Containers-AVL-Tree'
 }
 
-{ #category : 'adding' }
-CTAVLNilNode >> addChild: newObject [
-	^ self parent replace: self with: (CTAVLNode with: newObject)
-]
-
-{ #category : 'private' }
-CTAVLNilNode >> checkRemovingPath: path [
-	"Do nothing for nil node"
-]
-
 { #category : 'accessing' }
-CTAVLNilNode >> children [
-	^ #()
-]
-
-{ #category : 'accessing' }
-CTAVLNilNode >> allChildren [
-	^ #()
-]
-
-{ #category : 'enumerating' }
-CTAVLNilNode >> childrenDo: aBlock [
-	"Do nothing for nil node"
-]
-
-{ #category : 'enumerating' }
-CTAVLNilNode >> do: aBlock [
-	"Do nothing for nil node"
-]
-
-{ #category : 'accessing' }
-CTAVLNilNode >> height [
+CTAVLNilNode >> height [ 
+	
 	^ 0
 ]
 
 { #category : 'testing' }
-CTAVLNilNode >> isBalanced [
-	^ true
-]
+CTAVLNilNode >> isEmpty [
 
-{ #category : 'testing' }
-CTAVLNilNode >> isTotalBalanced [
 	^ true
 ]
 
 { #category : 'accessing' }
-CTAVLNilNode >> nodeSize [
+CTAVLNilNode >> size [
+
 	^ 0
-]
-
-{ #category : 'removing' }
-CTAVLNilNode >> remove: anObject path: list [
-	^ nil
-]
-
-{ #category : 'accessing' }
-CTAVLNilNode >> withAllChildren: aCollection [
-	"Do nothing for nil node"
 ]

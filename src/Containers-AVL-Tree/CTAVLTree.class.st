@@ -23,7 +23,7 @@ Date: October 20, 2023
 "
 Class {
 	#name : 'CTAVLTree',
-	#superclass : 'Collection',
+	#superclass : 'Object',
 	#instVars : [
 		'root'
 	],
@@ -31,81 +31,32 @@ Class {
 	#package : 'Containers-AVL-Tree'
 }
 
-{ #category : 'adding' }
-CTAVLTree >> add: newObject [
-    root := root addChild: newObject.
-    ^ newObject
+{ #category : 'removing' }
+CTAVLTree >> clear [
+
+	root := CTAVLNilNode new
 ]
 
-{ #category : 'enumerating' }
-CTAVLTree >> do: aBlock [ 
-	root do: aBlock
-]
-
-{ #category : 'testing' }
-CTAVLTree >> hasNoChildren [ 
-	^ root nodeSize = 0
-]
-
-{ #category : 'public' }
+{ #category : 'accessing' }
 CTAVLTree >> height [
-	^ root height
-]
 
-{ #category : 'testing' }
-CTAVLTree >> includes: anObject [
-	anObject ifNil: [ ^ false ].
-	^ (self search: anObject) notNil
+	^ root height
 ]
 
 { #category : 'initialization' }
 CTAVLTree >> initialize [
+
 	super initialize.
-	root := CTAVLNilNode new.
+	root := CTAVLNilNode new
 ]
 
 { #category : 'testing' }
-CTAVLTree >> isBalanced [
-	^ root isBalanced
-]
+CTAVLTree >> isEmpty [
 
-{ #category : 'testing' }
-CTAVLTree >> isTotalBalanced [
-	^ root isTotalBalanced
-]
-
-{ #category : 'removing' }
-CTAVLTree >> remove: oldObject ifAbsent: anExceptionBlock [
-	| toRemove path |
-	path := OrderedCollection new.
-	toRemove := root remove: oldObject path: path.
-	toRemove ifNil: [ ^ anExceptionBlock value ].
-	
-	toRemove == root ifTrue: [ 
-		root := root successor: path.
-		root ifNil: [ root := CTAVLNilNode new ] ].
-	root checkRemovingPath: path.
-	
-	^ toRemove contents
-]
-
-{ #category : 'search' }
-CTAVLTree >> search: anInteger [ 
-	^ root search: anInteger
+	^ root isEmpty
 ]
 
 { #category : 'accessing' }
-CTAVLTree >> size [
-	^ root nodeSize
-]
-
-{ #category : 'accessing' }
-CTAVLTree >> root [
-	^ root
-]
-
-{ #category : 'accessing' }
-CTAVLTree >> allChildren [
-  "Returns a collection of all child nodes in the tree."
-  ^ root ifNil: [#()] ifNotNil: [root allChildren].
+CTAVLTree >> size [ 
+	^ root size
 ]

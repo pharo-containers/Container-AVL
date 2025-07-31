@@ -31,6 +31,21 @@ Class {
 	#package : 'Containers-AVL-Tree'
 }
 
+{ #category : 'adding' }
+CTAVLTree >> add: anObject [
+
+	root := root addChild: anObject.
+	root parent: nil.
+	^ anObject
+]
+
+{ #category : 'adding' }
+CTAVLTree >> addAll: aCollection [
+
+	aCollection do: [ :each | self add: each ].
+	^ aCollection
+]
+
 { #category : 'removing' }
 CTAVLTree >> clear [
 
@@ -54,6 +69,12 @@ CTAVLTree >> initialize [
 CTAVLTree >> isEmpty [
 
 	^ root isEmpty
+]
+
+{ #category : 'accessing' }
+CTAVLTree >> root [
+
+	^ root isEmpty ifTrue: [ nil ] ifFalse: [ root ]
 ]
 
 { #category : 'accessing' }

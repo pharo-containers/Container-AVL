@@ -19,11 +19,34 @@ CTAVLTreeTest >> setUp [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testAddMultipleElements [
+
+	tree addAll: #(50 30 70).
+	self assert: tree size equals: 3
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testAddSingleElement [
+
+	tree add: 42.
+	self deny: tree isEmpty.
+	self assert: tree size equals: 1.
+	self assert: tree height equals: 1
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testClear [
 
 	tree clear.
 	self assert: tree isEmpty.
 	self assert: tree size equals: 0
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testDuplicateHandling [
+
+	tree addAll: #(42 42 50).
+	self assert: tree size equals: 2
 ]
 
 { #category : 'tests' }

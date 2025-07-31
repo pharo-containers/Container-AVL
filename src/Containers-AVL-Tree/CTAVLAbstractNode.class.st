@@ -22,6 +22,24 @@ Class {
 	#package : 'Containers-AVL-Tree'
 }
 
+{ #category : 'adding' }
+CTAVLAbstractNode >> addChild: anObject [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> contents [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> contents: anObject [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'accessing' }
 CTAVLAbstractNode >> height [
 
@@ -32,6 +50,12 @@ CTAVLAbstractNode >> height [
 CTAVLAbstractNode >> isEmpty [
 
 	^ self subclassResponsibility
+]
+
+{ #category : 'testing' }
+CTAVLAbstractNode >> isLeaf [ 
+
+	^ self subclassResponsibility 
 ]
 
 { #category : 'accessing' }

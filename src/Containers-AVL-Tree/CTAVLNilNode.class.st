@@ -13,6 +13,27 @@ Class {
 	#package : 'Containers-AVL-Tree'
 }
 
+{ #category : 'adding' }
+CTAVLNilNode >> addChild: anObject [
+
+	^ CTAVLNode new
+		contents: anObject;
+		parent: self parent;
+		yourself
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> contents [
+
+	^ nil
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> contents: anObject [
+
+	"Do nothing for nil node"
+]
+
 { #category : 'accessing' }
 CTAVLNilNode >> height [ 
 	
@@ -23,6 +44,11 @@ CTAVLNilNode >> height [
 CTAVLNilNode >> isEmpty [
 
 	^ true
+]
+
+{ #category : 'testing' }
+CTAVLNilNode >> isLeaf [ 
+	^ false
 ]
 
 { #category : 'accessing' }

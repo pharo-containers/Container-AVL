@@ -37,6 +37,17 @@ CTAVLNode class >> with: anInteger [
 		yourself
 ]
 
+{ #category : 'adding' }
+CTAVLNode >> addChild: anObject [
+
+	anObject < contents
+		ifTrue: [ self left: (left addChild: anObject) ]
+		ifFalse: [
+			anObject > contents
+				ifTrue: [ self right: (right addChild: anObject) ] ].
+	^ self
+]
+
 { #category : 'accessing' }
 CTAVLNode >> contents [
 
@@ -68,6 +79,11 @@ CTAVLNode >> initialize [
 CTAVLNode >> isEmpty [
 
 	^ false
+]
+
+{ #category : 'testing' }
+CTAVLNode >> isLeaf [ 
+	^ left isEmpty and: [ right isEmpty ]
 ]
 
 { #category : 'accessing' }

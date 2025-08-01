@@ -105,3 +105,15 @@ CTAVLAbstractNode >> size [
 
 	^ self subclassResponsibility 
 ]
+
+{ #category : 'validation' }
+CTAVLAbstractNode >> validateAsRoot [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'validation' }
+CTAVLAbstractNode >> validateWithMin: min max: max [
+
+	^ self subclassResponsibility 
+]

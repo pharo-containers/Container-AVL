@@ -125,3 +125,10 @@ CTAVLTree >> root [
 CTAVLTree >> size [ 
 	^ root size
 ]
+
+{ #category : 'accessing' }
+CTAVLTree >> validate [
+
+	"Validate that the tree maintains both BST and AVL properties"
+	^ root validateAsRoot
+]

@@ -86,3 +86,15 @@ CTAVLNilNode >> size [
 
 	^ 0
 ]
+
+{ #category : 'validation' }
+CTAVLNilNode >> validateAsRoot [
+
+	^ true
+]
+
+{ #category : 'validation' }
+CTAVLNilNode >> validateWithMin: min max: max [
+
+	^ true
+]

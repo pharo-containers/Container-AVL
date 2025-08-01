@@ -108,3 +108,60 @@ CTAVLTreeTest >> testIncludes [
 	self assert: (tree includes: 30).
 	self deny: (tree includes: 99)
 ]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testLLRotation [
+
+	tree add: 3.
+	tree add: 2.
+	tree add: 1.
+	
+	self assert: tree root contents equals: 2.
+	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testLRRotation [
+
+	tree add: 3.
+	tree add: 1.
+	tree add: 2.
+	
+	self assert: tree root contents equals: 2.
+	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRLRotation [
+
+	tree add: 1.
+	tree add: 3.
+	tree add: 2.
+	
+	self assert: tree root contents equals: 2.
+	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRRRotation [
+
+	tree add: 1.
+	tree add: 2.
+	tree add: 3.
+	
+	self assert: tree root contents equals: 2.
+	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testValidation [
+
+	self assert: tree validate.
+	
+	tree addAll: #(50 30 70 20 40).
+	self assert: tree validate.
+	
+	"Test after operations"
+	tree add: 60.
+	self assert: tree validate
+]

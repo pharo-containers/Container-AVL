@@ -45,7 +45,7 @@ CTAVLNode >> addChild: anObject [
 		ifFalse: [
 			anObject > contents
 				ifTrue: [ self right: (right addChild: anObject) ] ].
-	^ self
+	^ self updateHeightAndRebalance
 ]
 
 { #category : 'accessing' }
@@ -129,6 +129,24 @@ CTAVLNode >> left: aNode [
 	aNode ifNotNil: [ aNode parent: self ]
 ]
 
+{ #category : 'private' }
+CTAVLNode >> rebalance [
+
+	| bf |
+	bf := self balanceFactor.
+	"Left-heavy case"
+	bf > 1 ifTrue: [
+		"Left-Right case"
+		(left balanceFactor < 0) ifTrue: [ self left: left rotateLeft ].
+		^ self rotateRight ].
+	"Right-heavy case"
+	bf < -1 ifTrue: [
+		"Right-Left case"
+		(right balanceFactor > 0) ifTrue: [ self right: right rotateRight ].
+		^ self rotateLeft ].
+	^ self "Already balanced"
+]
+
 { #category : 'accessing' }
 CTAVLNode >> right [
 
@@ -140,6 +158,30 @@ CTAVLNode >> right: aNode [
 
 	right := aNode.
 	aNode ifNotNil: [ aNode parent: self ]
+]
+
+{ #category : 'private' }
+CTAVLNode >> rotateLeft [
+
+	| newRoot |
+	newRoot := right.
+	self right: newRoot left.
+	newRoot left: self.
+	self updateHeight.
+	newRoot updateHeight.
+	^ newRoot
+]
+
+{ #category : 'private' }
+CTAVLNode >> rotateRight [
+
+	| newRoot |
+	newRoot := left.
+	self left: newRoot right.
+	newRoot right: self.
+	self updateHeight.
+	newRoot updateHeight.
+	^ newRoot
 ]
 
 { #category : 'accessing' }
@@ -161,4 +203,32 @@ CTAVLNode >> size [
 CTAVLNode >> updateHeight [
 
 height := 1 + (left height max: right height)
+]
+
+{ #category : 'private' }
+CTAVLNode >> updateHeightAndRebalance [
+
+	self updateHeight.
+	^ self rebalance
+]
+
+{ #category : 'validation' }
+CTAVLNode >> validateAsRoot [
+
+	^ self validateWithMin: nil max: nil
+]
+
+{ #category : 'validation' }
+CTAVLNode >> validateWithMin: min max: max [
+
+	"Check BST property"
+	(min notNil and: [ contents < min ]) ifTrue: [ ^ false ].
+	(max notNil and: [ contents > max ]) ifTrue: [ ^ false ].
+	"Check AVL property"
+	(self balanceFactor abs > 1) ifTrue: [ ^ false ].
+	"Check height property"
+	(self height = (1 + (left height max: right height))) ifFalse: [ ^ false ].
+	"Recursively validate children"
+	^ (left validateWithMin: min max: contents) and: [
+		right validateWithMin: contents max: max ]
 ]

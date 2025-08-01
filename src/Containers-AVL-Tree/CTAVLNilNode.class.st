@@ -23,6 +23,12 @@ CTAVLNilNode >> addChild: anObject [
 ]
 
 { #category : 'accessing' }
+CTAVLNilNode >> balanceFactor [
+
+	^ 0
+]
+
+{ #category : 'accessing' }
 CTAVLNilNode >> contents [
 
 	^ nil
@@ -34,10 +40,28 @@ CTAVLNilNode >> contents: anObject [
 	"Do nothing for nil node"
 ]
 
+{ #category : 'searching' }
+CTAVLNilNode >> findMax [ 
+
+	^ nil
+]
+
+{ #category : 'searching' }
+CTAVLNilNode >> findMin [
+
+	^ nil
+]
+
 { #category : 'accessing' }
 CTAVLNilNode >> height [ 
 	
 	^ 0
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> inOrderDo: aBlock [
+
+	"Do Nothing for Nil Node"
 ]
 
 { #category : 'testing' }
@@ -49,6 +73,12 @@ CTAVLNilNode >> isEmpty [
 { #category : 'testing' }
 CTAVLNilNode >> isLeaf [ 
 	^ false
+]
+
+{ #category : 'accessing' }
+CTAVLNilNode >> search: anObject [
+
+	^ nil
 ]
 
 { #category : 'accessing' }

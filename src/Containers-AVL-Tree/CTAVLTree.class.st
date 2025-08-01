@@ -46,16 +46,60 @@ CTAVLTree >> addAll: aCollection [
 	^ aCollection
 ]
 
+{ #category : 'converting' }
+CTAVLTree >> asArray [
+
+	| result |
+	result := OrderedCollection new: self size.
+	self inOrderDo: [ :each | result add: each ].
+	^ result asArray
+]
+
 { #category : 'removing' }
 CTAVLTree >> clear [
 
 	root := CTAVLNilNode new
 ]
 
+{ #category : 'enumerating' }
+CTAVLTree >> do: aBlock [
+
+	"Alias for inOrderDo: - visits elements in sorted order"
+	self inOrderDo: aBlock
+]
+
+{ #category : 'searching' }
+CTAVLTree >> findMax [
+
+	^ self isEmpty
+		ifTrue: [ nil ]
+		ifFalse: [ root findMax ]
+]
+
+{ #category : 'searching' }
+CTAVLTree >> findMin [
+
+	^ self isEmpty
+		ifTrue: [ nil ]
+		ifFalse: [ root findMin ]
+]
+
 { #category : 'accessing' }
 CTAVLTree >> height [
 
 	^ root height
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> inOrderDo: aBlock [
+
+	root inOrderDo: aBlock
+]
+
+{ #category : 'testing' }
+CTAVLTree >> includes: anObject [
+
+	^ (root search: anObject) notNil
 ]
 
 { #category : 'initialization' }

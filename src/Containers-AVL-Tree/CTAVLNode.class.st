@@ -49,6 +49,12 @@ CTAVLNode >> addChild: anObject [
 ]
 
 { #category : 'accessing' }
+CTAVLNode >> balanceFactor [
+
+	^ left height - right height
+]
+
+{ #category : 'accessing' }
 CTAVLNode >> contents [
 
 	^ contents
@@ -60,10 +66,34 @@ CTAVLNode >> contents: anObject [
 	contents := anObject
 ]
 
+{ #category : 'searching' }
+CTAVLNode >> findMax [
+
+	^ right isEmpty
+		ifTrue: [ contents ]
+		ifFalse: [ right findMax ]
+]
+
+{ #category : 'searching' }
+CTAVLNode >> findMin [
+
+	^ left isEmpty
+		ifTrue: [ contents ]
+		ifFalse: [ left findMin ]
+]
+
 { #category : 'accessing' }
 CTAVLNode >> height [
 
 	^ height 
+]
+
+{ #category : 'enumerating' }
+CTAVLNode >> inOrderDo: aBlock [
+
+	left inOrderDo: aBlock.
+	aBlock value: contents.
+	right inOrderDo: aBlock
 ]
 
 { #category : 'initialization' }
@@ -113,7 +143,22 @@ CTAVLNode >> right: aNode [
 ]
 
 { #category : 'accessing' }
+CTAVLNode >> search: anObject [
+
+	contents = anObject ifTrue: [ ^ contents ].
+	^ anObject < contents
+		ifTrue: [ left search: anObject ]
+		ifFalse: [ right search: anObject ]
+]
+
+{ #category : 'accessing' }
 CTAVLNode >> size [
 
 	^ 1 + left size + right size
+]
+
+{ #category : 'private' }
+CTAVLNode >> updateHeight [
+
+height := 1 + (left height max: right height)
 ]

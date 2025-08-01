@@ -29,6 +29,12 @@ CTAVLAbstractNode >> addChild: anObject [
 ]
 
 { #category : 'accessing' }
+CTAVLAbstractNode >> balanceFactor [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
 CTAVLAbstractNode >> contents [
 
 	^ self subclassResponsibility 
@@ -40,10 +46,28 @@ CTAVLAbstractNode >> contents: anObject [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'searching' }
+CTAVLAbstractNode >> findMax [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'searching' }
+CTAVLAbstractNode >> findMin [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'accessing' }
 CTAVLAbstractNode >> height [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> inOrderDo: aBlock [
+
+	^ self subclassResponsibility
 ]
 
 { #category : 'testing' }
@@ -68,6 +92,12 @@ CTAVLAbstractNode >> parent [
 CTAVLAbstractNode >> parent: aNode [
 
 	parent := aNode
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> search: anObject [
+
+	^ self subclassResponsibility
 ]
 
 { #category : 'accessing' }

@@ -94,6 +94,24 @@ CTAVLAbstractNode >> parent: aNode [
 	parent := aNode
 ]
 
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> postOrderDo: aBlock [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> preOrderDo: aBlock [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'removing' }
+CTAVLAbstractNode >> removeValue: anObject [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'accessing' }
 CTAVLAbstractNode >> search: anObject [
 

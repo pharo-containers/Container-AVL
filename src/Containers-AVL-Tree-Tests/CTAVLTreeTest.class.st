@@ -50,6 +50,18 @@ CTAVLTreeTest >> testClear [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testDoMethod [
+
+	| result |
+	tree addAll: #(50 30 70 20 40).
+	
+	result := OrderedCollection new.
+	tree do: [ :each | result add: each ].
+	
+	self assert: result asArray equals: #(20 30 40 50 70)
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testDuplicateHandling [
 
 	tree addAll: #(42 42 50).
@@ -132,6 +144,26 @@ CTAVLTreeTest >> testLRRotation [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testPostOrderTraversal [
+
+	| result |
+	tree addAll: #(50 30 70 20).
+	result := OrderedCollection new.
+	tree postOrderDo: [ :each | result add: each ].
+	self assert: result last equals: tree root contents
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testPreOrderTraversal [
+
+	| result |
+	tree addAll: #(50 30 70 20).
+	result := OrderedCollection new.
+	tree preOrderDo: [ :each | result add: each ].
+	self assert: result first equals: tree root contents
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testRLRotation [
 
 	tree add: 1.
@@ -151,6 +183,61 @@ CTAVLTreeTest >> testRRRotation [
 	
 	self assert: tree root contents equals: 2.
 	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveLeafNode [
+
+	tree addAll: #(50 30 70 20).
+	
+	tree remove: 20.
+	self assert: tree size equals: 3.
+	self deny: (tree includes: 20).
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveNodeWithOneChild [
+
+	tree addAll: #(50 30 20).
+	tree remove: 30.
+	self assert: tree size equals: 2.
+	self deny: (tree includes: 30).
+	self assert: (tree includes: 20).
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveNodeWithTwoChildren [
+
+		tree addAll: #(50 30 70 20 40).
+	
+	tree remove: 30.
+	self assert: tree size equals: 4.
+	self deny: (tree includes: 30).
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveNonExistentElement [
+
+	| result |
+	tree addAll: #(50 30 70).
+	result := tree remove: 99 ifAbsent: [ #notFound ].
+	self assert: result equals: #notFound.
+	self assert: tree size equals: 3.
+	
+	self should: [ tree remove: 99 ] raise: Error
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveRoot [
+
+	tree addAll: #(50 30 70 20 40 60 80).
+	tree remove: 50.
+	self assert: tree size equals: 6.
+	self deny: (tree includes: 50).
+	self assert: tree validate
 ]
 
 { #category : 'tests' }

@@ -115,6 +115,35 @@ CTAVLTree >> isEmpty [
 	^ root isEmpty
 ]
 
+{ #category : 'enumerating' }
+CTAVLTree >> postOrderDo: aBlock [
+
+	root postOrderDo: aBlock
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> preOrderDo: aBlock [
+
+	root preOrderDo: aBlock
+]
+
+{ #category : 'removing' }
+CTAVLTree >> remove: anObject [
+
+	^ self
+		remove: anObject
+		ifAbsent: [ NotFound signalFor: anObject in: self ]
+]
+
+{ #category : 'removing' }
+CTAVLTree >> remove: anObject ifAbsent: aBlock [
+
+	(self includes: anObject) ifFalse: [ ^ aBlock value ].
+	root := root removeValue: anObject.
+	root parent: nil.
+	^ anObject
+]
+
 { #category : 'accessing' }
 CTAVLTree >> root [
 

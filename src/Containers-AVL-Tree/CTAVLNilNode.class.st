@@ -75,6 +75,24 @@ CTAVLNilNode >> isLeaf [
 	^ false
 ]
 
+{ #category : 'enumerating' }
+CTAVLNilNode >> postOrderDo: aBlock [
+
+	"Do Nothing for Nil Node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> preOrderDo: aBlock [
+
+	"Do Nothing for Nil Node"
+]
+
+{ #category : 'removing' }
+CTAVLNilNode >> removeValue: anObject [
+
+	^ self 
+]
+
 { #category : 'accessing' }
 CTAVLNilNode >> search: anObject [
 

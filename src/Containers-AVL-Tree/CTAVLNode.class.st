@@ -129,6 +129,22 @@ CTAVLNode >> left: aNode [
 	aNode ifNotNil: [ aNode parent: self ]
 ]
 
+{ #category : 'enumerating' }
+CTAVLNode >> postOrderDo: aBlock [
+
+	left postOrderDo: aBlock.
+	right postOrderDo: aBlock.
+	aBlock value: contents
+]
+
+{ #category : 'enumerating' }
+CTAVLNode >> preOrderDo: aBlock [
+
+	aBlock value: contents.
+	left preOrderDo: aBlock.
+	right preOrderDo: aBlock
+]
+
 { #category : 'private' }
 CTAVLNode >> rebalance [
 
@@ -145,6 +161,34 @@ CTAVLNode >> rebalance [
 		(right balanceFactor > 0) ifTrue: [ self right: right rotateRight ].
 		^ self rotateLeft ].
 	^ self "Already balanced"
+]
+
+{ #category : 'private' }
+CTAVLNode >> removeThisNode [
+
+	"Handle removal of the current node, then rebalance."
+	| successorValue |
+	"Case 1 & 2: Leaf or one child"
+	left isEmpty ifTrue: [ ^ right ].
+	right isEmpty ifTrue: [ ^ left ].
+	"Case 3: Two children"
+	successorValue := right findMin.
+	self contents: successorValue.
+	self right: (right removeValue: successorValue).
+	^ self updateHeightAndRebalance
+]
+
+{ #category : 'removing' }
+CTAVLNode >> removeValue: anObject [
+
+	anObject < contents ifTrue: [
+		self left: (left removeValue: anObject).
+		^ self updateHeightAndRebalance ].
+	anObject > contents ifTrue: [
+		self right: (right removeValue: anObject).
+		^ self updateHeightAndRebalance ].
+	"Found the node to remove"
+	^ self removeThisNode
 ]
 
 { #category : 'accessing' }

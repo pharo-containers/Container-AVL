@@ -53,7 +53,19 @@ CTAVLAbstractNode >> findMax [
 ]
 
 { #category : 'searching' }
+CTAVLAbstractNode >> findMaxNode [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'searching' }
 CTAVLAbstractNode >> findMin [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'searching' }
+CTAVLAbstractNode >> findMinNode [
 
 	^ self subclassResponsibility 
 ]

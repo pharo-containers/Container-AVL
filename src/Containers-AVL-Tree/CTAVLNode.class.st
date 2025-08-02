@@ -75,11 +75,27 @@ CTAVLNode >> findMax [
 ]
 
 { #category : 'searching' }
+CTAVLNode >> findMaxNode [ 
+
+	^ right isEmpty
+		ifTrue: [ self ]
+		ifFalse: [ right findMaxNode ]
+]
+
+{ #category : 'searching' }
 CTAVLNode >> findMin [
 
 	^ left isEmpty
 		ifTrue: [ contents ]
 		ifFalse: [ left findMin ]
+]
+
+{ #category : 'searching' }
+CTAVLNode >> findMinNode [ 
+
+	^ left isEmpty
+		ifTrue: [ self ]
+		ifFalse: [ left findMinNode ]
 ]
 
 { #category : 'accessing' }

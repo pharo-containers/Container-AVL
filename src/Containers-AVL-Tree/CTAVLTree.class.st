@@ -46,6 +46,15 @@ CTAVLTree >> addAll: aCollection [
 	^ aCollection
 ]
 
+{ #category : 'enumerating' }
+CTAVLTree >> anySatisfy: aBlock [
+
+	self inOrderDo: [ :each |
+		(aBlock value: each) ifTrue: [ ^ true ]
+	].
+	^ false
+]
+
 { #category : 'converting' }
 CTAVLTree >> asArray [
 
@@ -55,10 +64,36 @@ CTAVLTree >> asArray [
 	^ result asArray
 ]
 
+{ #category : 'accessing' }
+CTAVLTree >> at: anObject ifAbsent: aBlock [
+
+	| result |
+	result := root search: anObject.
+	^ result ifNil: [ aBlock value ] ifNotNil: [ result ]
+]
+
 { #category : 'removing' }
 CTAVLTree >> clear [
 
 	root := CTAVLNilNode new
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> collect: aBlock [
+
+	| result |
+	result := OrderedCollection new: self size.
+	self inOrderDo: [ :each | result add: (aBlock value: each) ].
+	^ result
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> detect: aBlock ifNone: absentBlock [
+
+	self inOrderDo: [ :each |
+		(aBlock value: each) ifTrue: [ ^ each ]
+	].
+	^ absentBlock value
 ]
 
 { #category : 'enumerating' }
@@ -77,11 +112,33 @@ CTAVLTree >> findMax [
 ]
 
 { #category : 'searching' }
+CTAVLTree >> findMaxNode [
+
+	^ self isEmpty
+		ifTrue: [ nil ]
+		ifFalse: [ root findMaxNode ]
+]
+
+{ #category : 'searching' }
 CTAVLTree >> findMin [
 
 	^ self isEmpty
 		ifTrue: [ nil ]
 		ifFalse: [ root findMin ]
+]
+
+{ #category : 'searching' }
+CTAVLTree >> findMinNode [
+
+	^ self isEmpty
+		ifTrue: [ nil ]
+		ifFalse: [ root findMinNode ]
+]
+
+{ #category : 'accessing' }
+CTAVLTree >> first [
+
+	^ self findMin 
 ]
 
 { #category : 'accessing' }
@@ -113,6 +170,12 @@ CTAVLTree >> initialize [
 CTAVLTree >> isEmpty [
 
 	^ root isEmpty
+]
+
+{ #category : 'accessing' }
+CTAVLTree >> last [
+	
+	^ self findMax
 ]
 
 { #category : 'enumerating' }
@@ -148,6 +211,15 @@ CTAVLTree >> remove: anObject ifAbsent: aBlock [
 CTAVLTree >> root [
 
 	^ root isEmpty ifTrue: [ nil ] ifFalse: [ root ]
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> select: aBlock [
+
+	| result |
+	result := OrderedCollection new.
+	self inOrderDo: [ :each | (aBlock value: each) ifTrue: [ result add: each ] ].
+	^ result
 ]
 
 { #category : 'accessing' }

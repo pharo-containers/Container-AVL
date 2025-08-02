@@ -47,9 +47,21 @@ CTAVLNilNode >> findMax [
 ]
 
 { #category : 'searching' }
+CTAVLNilNode >> findMaxNode [
+
+	^ self
+]
+
+{ #category : 'searching' }
 CTAVLNilNode >> findMin [
 
 	^ nil
+]
+
+{ #category : 'searching' }
+CTAVLNilNode >> findMinNode [
+
+	^ self
 ]
 
 { #category : 'accessing' }

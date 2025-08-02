@@ -35,10 +35,27 @@ CTAVLTreeTest >> testAddSingleElement [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testAnySatisfy [
+
+	tree addAll: #(50 30 70 20 40).
+	
+	self assert: (tree anySatisfy: [ :each | each > 60 ]).
+	self deny: (tree anySatisfy: [ :each | each > 100 ])
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testAsArray [
 
 	tree addAll: #(50 30 70 20 40).
 	self assert: tree asArray equals: #(20 30 40 50 70)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testAtIfAbsent [
+
+	tree addAll: #(50 30 70).
+	self assert: (tree at: 30 ifAbsent: [ #notFound ]) equals: 30.
+	self assert: (tree at: 99 ifAbsent: [ #notFound ]) equals: #notFound
 ]
 
 { #category : 'tests' }
@@ -47,6 +64,29 @@ CTAVLTreeTest >> testClear [
 	tree clear.
 	self assert: tree isEmpty.
 	self assert: tree size equals: 0
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCollect [
+
+	| doubled |
+	tree addAll: #(50 30 70 20 40).
+	
+	doubled := tree collect: [ :each | each * 2 ].
+	self assert: doubled asArray equals: #(40 60 80 100 140)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testDetect [
+
+	| found |
+	tree addAll: #(50 30 70 20 40).
+	
+	found := tree detect: [ :each | each > 45 ] ifNone: [ nil ].
+	self assert: found equals: 50.
+	
+	found := tree detect: [ :each | each > 100 ] ifNone: [ #none ].
+	self assert: found equals: #none
 ]
 
 { #category : 'tests' }
@@ -85,6 +125,23 @@ CTAVLTreeTest >> testFindMinMax [
 	tree addAll: #(50 30 70 20 80).
 	self assert: tree findMin equals: 20.
 	self assert: tree findMax equals: 80
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testFindMinMaxNode [
+
+	tree addAll: #(50 30 70 20 80).
+	
+	self assert: tree findMinNode contents equals: 20.
+	self assert: tree findMaxNode contents equals: 80
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testFirstLast [
+
+	tree addAll: #(50 30 70 20 80).
+	self assert: tree first equals: 20.
+	self assert: tree last equals: 80
 ]
 
 { #category : 'tests' }
@@ -238,6 +295,16 @@ CTAVLTreeTest >> testRemoveRoot [
 	self assert: tree size equals: 6.
 	self deny: (tree includes: 50).
 	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSelect [
+
+	| evens |
+	tree addAll: #(50 30 70 20 40).
+	
+	evens := tree select: [ :each | each even ].
+	self assert: evens asArray equals: #(20 30 40 50 70)
 ]
 
 { #category : 'tests' }

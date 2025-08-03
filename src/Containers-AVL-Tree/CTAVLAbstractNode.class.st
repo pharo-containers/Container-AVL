@@ -46,6 +46,25 @@ CTAVLAbstractNode >> contents: anObject [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> elementsFrom: min to: max into: aCollection [
+
+		^ self subclassResponsibility
+
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> elementsGreaterThan: anObject into: aCollection [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+CTAVLAbstractNode >> elementsLessThan: anObject into: aCollection [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'searching' }
 CTAVLAbstractNode >> findMax [
 
@@ -118,6 +137,12 @@ CTAVLAbstractNode >> preOrderDo: aBlock [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'searching' }
+CTAVLAbstractNode >> predecessorOf: anObject [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'removing' }
 CTAVLAbstractNode >> removeValue: anObject [
 
@@ -132,6 +157,12 @@ CTAVLAbstractNode >> search: anObject [
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> size [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'searching' }
+CTAVLAbstractNode >> successorOf: anObject [
 
 	^ self subclassResponsibility 
 ]

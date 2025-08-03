@@ -66,6 +66,34 @@ CTAVLNode >> contents: anObject [
 	contents := anObject
 ]
 
+{ #category : 'enumerating' }
+CTAVLNode >> elementsFrom: min to: max into: aCollection [
+
+	contents > min ifTrue: [
+		left elementsFrom: min to: max into: aCollection ].
+	(contents between: min and: max) ifTrue: [ aCollection add: contents ].
+	contents < max ifTrue: [
+		right elementsFrom: min to: max into: aCollection ]
+]
+
+{ #category : 'enumerating' }
+CTAVLNode >> elementsGreaterThan: anObject into: aCollection [
+
+	contents > anObject ifTrue: [
+		left elementsGreaterThan: anObject into: aCollection.
+		aCollection add: contents ].
+	right elementsGreaterThan: anObject into: aCollection
+]
+
+{ #category : 'enumerating' }
+CTAVLNode >> elementsLessThan: anObject into: aCollection [
+
+	left elementsLessThan: anObject into: aCollection.
+	contents < anObject ifFalse: [ ^ self ].
+	aCollection add: contents.
+	right elementsLessThan: anObject into: aCollection
+]
+
 { #category : 'searching' }
 CTAVLNode >> findMax [
 
@@ -159,6 +187,16 @@ CTAVLNode >> preOrderDo: aBlock [
 	aBlock value: contents.
 	left preOrderDo: aBlock.
 	right preOrderDo: aBlock
+]
+
+{ #category : 'searching' }
+CTAVLNode >> predecessorOf: anObject [
+
+	| rightResult |
+	anObject <= contents ifTrue: [
+		^ left predecessorOf: anObject ].
+	rightResult := right predecessorOf: anObject.
+	^ rightResult ifNil: [ contents ] ifNotNil: [ rightResult ]
 ]
 
 { #category : 'private' }
@@ -257,6 +295,16 @@ CTAVLNode >> search: anObject [
 CTAVLNode >> size [
 
 	^ 1 + left size + right size
+]
+
+{ #category : 'searching' }
+CTAVLNode >> successorOf: anObject [
+
+	| leftResult |
+	anObject >= contents ifTrue: [
+		^ right successorOf: anObject ].
+	leftResult := left successorOf: anObject.
+	^ leftResult ifNil: [ contents ] ifNotNil: [ leftResult ]
 ]
 
 { #category : 'private' }

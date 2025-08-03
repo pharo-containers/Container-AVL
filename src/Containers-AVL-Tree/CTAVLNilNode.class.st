@@ -40,6 +40,24 @@ CTAVLNilNode >> contents: anObject [
 	"Do nothing for nil node"
 ]
 
+{ #category : 'enumerating' }
+CTAVLNilNode >> elementsFrom: min to: max into: aCollection [
+
+	"Do Nothing for Nil Node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> elementsGreaterThan: anObject into: aCollection [
+
+	"Do Nothing for Nil Node"
+]
+
+{ #category : 'enumerating' }
+CTAVLNilNode >> elementsLessThan: anObject into: aCollection [
+
+	"Do Nothing for Nil Node"
+]
+
 { #category : 'searching' }
 CTAVLNilNode >> findMax [ 
 
@@ -99,6 +117,12 @@ CTAVLNilNode >> preOrderDo: aBlock [
 	"Do Nothing for Nil Node"
 ]
 
+{ #category : 'searching' }
+CTAVLNilNode >> predecessorOf: anObject [
+
+	^ nil
+]
+
 { #category : 'removing' }
 CTAVLNilNode >> removeValue: anObject [
 
@@ -115,6 +139,12 @@ CTAVLNilNode >> search: anObject [
 CTAVLNilNode >> size [
 
 	^ 0
+]
+
+{ #category : 'searching' }
+CTAVLNilNode >> successorOf: anObject [
+
+	^ nil
 ]
 
 { #category : 'validation' }

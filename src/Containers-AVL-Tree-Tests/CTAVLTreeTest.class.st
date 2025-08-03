@@ -109,6 +109,49 @@ CTAVLTreeTest >> testDuplicateHandling [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testElementsFromTo [
+
+	| result |
+	tree addAll: #(50 30 70 20 40 60 80).
+	
+	result := tree elementsFrom: 35 to: 65.
+	self assert: result asArray equals: #(40 50 60).
+	
+	"Test edge cases"
+	result := tree elementsFrom: 10 to: 15.
+	self assert: result isEmpty.
+	
+	result := tree elementsFrom: 65 to: 35. "Invalid range"
+	self assert: result isEmpty
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testElementsGreaterThan [
+
+	| result |
+	tree addAll: #(50 30 70 20 40 60 80).
+	
+	result := tree elementsGreaterThan: 45.
+	self assert: result asArray equals: #(50 60 70 80).
+	
+	result := tree elementsGreaterThan: 80.
+	self assert: result isEmpty
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testElementsLessThan [
+
+	| result |
+	tree addAll: #(50 30 70 20 40 60 80).
+	
+	result := tree elementsLessThan: 45.
+	self assert: result asArray equals: #(20 30 40).
+	
+	result := tree elementsLessThan: 20.
+	self assert: result isEmpty
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testEmpty [
 
 	self assert: tree isEmpty.
@@ -218,6 +261,21 @@ CTAVLTreeTest >> testPreOrderTraversal [
 	result := OrderedCollection new.
 	tree preOrderDo: [ :each | result add: each ].
 	self assert: result first equals: tree root contents
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testPredecessorSuccessor [
+
+	tree addAll: #(50 30 70 20 40 60 80).
+	
+	self assert: (tree predecessorOf: 50) equals: 40.
+	self assert: (tree predecessorOf: 20) isNil.
+	self assert: (tree successorOf: 50) equals: 60.
+	self assert: (tree successorOf: 80) isNil.
+	
+	"Test with non-existent element"
+	self assert: (tree predecessorOf: 35) equals: 30.
+	self assert: (tree successorOf: 35) equals: 40
 ]
 
 { #category : 'tests' }

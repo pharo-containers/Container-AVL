@@ -103,6 +103,34 @@ CTAVLTree >> do: aBlock [
 	self inOrderDo: aBlock
 ]
 
+{ #category : 'enumerating' }
+CTAVLTree >> elementsFrom: min to: max [ 
+
+	| result |
+	min > max ifTrue: [ ^ #() ].
+	result := OrderedCollection new.
+	root elementsFrom: min to: max into: result.
+	^ result
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> elementsGreaterThan: anObject [
+
+	| result |
+	result := OrderedCollection new.
+	root elementsGreaterThan: anObject into: result.
+	^ result
+]
+
+{ #category : 'enumerating' }
+CTAVLTree >> elementsLessThan: anObject [
+
+	| result |
+	result := OrderedCollection new.
+	root elementsLessThan: anObject into: result.
+	^ result
+]
+
 { #category : 'searching' }
 CTAVLTree >> findMax [
 
@@ -190,6 +218,12 @@ CTAVLTree >> preOrderDo: aBlock [
 	root preOrderDo: aBlock
 ]
 
+{ #category : 'searching' }
+CTAVLTree >> predecessorOf: anObject [
+
+	^ root predecessorOf: anObject
+]
+
 { #category : 'removing' }
 CTAVLTree >> remove: anObject [
 
@@ -225,6 +259,12 @@ CTAVLTree >> select: aBlock [
 { #category : 'accessing' }
 CTAVLTree >> size [ 
 	^ root size
+]
+
+{ #category : 'searching' }
+CTAVLTree >> successorOf: anObject [
+
+	^ root successorOf: anObject
 ]
 
 { #category : 'accessing' }

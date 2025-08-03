@@ -87,6 +87,15 @@ CTAVLTree >> collect: aBlock [
 	^ result
 ]
 
+{ #category : 'copying' }
+CTAVLTree >> copy [
+
+	| newTree |
+	newTree := self class new.
+	self inOrderDo: [ :each | newTree add: each ].
+	^ newTree
+]
+
 { #category : 'enumerating' }
 CTAVLTree >> detect: aBlock ifNone: absentBlock [
 
@@ -175,6 +184,22 @@ CTAVLTree >> height [
 	^ root height
 ]
 
+{ #category : 'testing' }
+CTAVLTree >> ifEmpty: aBlock [
+
+	^ self isEmpty
+		ifTrue: [ aBlock value ]
+		ifFalse: [ self ]
+]
+
+{ #category : 'testing' }
+CTAVLTree >> ifNotEmpty: aBlock [
+
+	^ self isEmpty
+		ifFalse: [ aBlock value: self ]
+		ifTrue: [ self ]
+]
+
 { #category : 'enumerating' }
 CTAVLTree >> inOrderDo: aBlock [
 
@@ -239,6 +264,13 @@ CTAVLTree >> remove: anObject ifAbsent: aBlock [
 	root := root removeValue: anObject.
 	root parent: nil.
 	^ anObject
+]
+
+{ #category : 'removing' }
+CTAVLTree >> removeAll: aCollection [
+
+	aCollection do: [ :each | self remove: each ifAbsent: [ ] ].
+	^ aCollection
 ]
 
 { #category : 'accessing' }

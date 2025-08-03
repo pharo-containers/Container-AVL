@@ -77,6 +77,35 @@ CTAVLTreeTest >> testCollect [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testComplexRotations [
+
+	"Test more complex rotation scenarios"
+	tree addAll: #(50 30 70 20 40 60 80 10).
+	self assert: tree validate.
+	
+	"Add more elements to trigger multiple rotations"
+	tree addAll: #(5 15 25 35 45).
+	self assert: tree validate.
+	
+	"Height should remain logarithmic"
+	self assert: tree height <= 5
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCopy [
+
+	| copiedTree |
+	tree addAll: #(50 30 70).
+	copiedTree := tree copy.
+	
+	self assert: copiedTree size equals: tree size.
+	self assert: copiedTree asArray equals: tree asArray.
+	copiedTree add: 99.
+	self deny: (tree includes: 99).
+	self assert: (copiedTree includes: 99)
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testDetect [
 
 	| found |
@@ -160,6 +189,16 @@ CTAVLTreeTest >> testEmpty [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testEmptyTreeOperations [
+
+	self assert: tree findMin isNil.
+	self assert: tree findMax isNil.
+	self deny: (tree includes: 42).
+	
+	self deny: (tree anySatisfy: [ :each | true ])
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testFindMinMax [
 
 	self assert: tree findMin isNil.
@@ -200,6 +239,18 @@ CTAVLTreeTest >> testHeight [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testIfEmptyIfNotEmpty [
+
+	| result |
+	result := tree ifEmpty: [ #empty ].
+	self assert: result equals: #empty.
+	
+	tree add: 42.
+	result := tree ifNotEmpty: [ :t | #notEmpty ].
+	self assert: result equals: #notEmpty
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testInOrderTraversal [
 
 	| result |
@@ -222,6 +273,17 @@ CTAVLTreeTest >> testIncludes [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testIsLeaf [
+
+	tree add: 50.
+	self assert: tree root isLeaf.
+	
+	tree add: 30.
+	self deny: tree root isLeaf.
+	self assert: tree root left isLeaf
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testLLRotation [
 
 	tree add: 3.
@@ -241,6 +303,27 @@ CTAVLTreeTest >> testLRRotation [
 	
 	self assert: tree root contents equals: 2.
 	self assert: tree asArray equals: #(1 2 3)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testNegativeNumbers [
+
+	tree addAll: #(-10 -5 0 5 10).
+	
+	self assert: tree findMin equals: -10.
+	self assert: tree findMax equals: 10.
+	self assert: tree asArray equals: #(-10 -5 0 5 10).
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testParentChildRelationships [
+
+	tree addAll: #(50 30 70 20 40).
+	
+	self assert: tree root parent isNil.
+	self assert: tree root left parent equals: tree root.
+	self assert: tree root right parent equals: tree root
 ]
 
 { #category : 'tests' }
@@ -301,6 +384,31 @@ CTAVLTreeTest >> testRRRotation [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testRemovalCausingRebalancing [
+
+	tree addAll: #(50 30 70 20 40 60 80 10 25).
+	
+	"Remove elements that should trigger rebalancing"
+	tree remove: 10.
+	tree remove: 20.
+	tree remove: 25.
+	
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRemoveAll [
+
+	tree addAll: #(50 30 70 20 40).
+	tree removeAll: #(30 70).
+	
+	self assert: tree size equals: 3.
+	self deny: (tree includes: 30).
+	self deny: (tree includes: 70).
+	self assert: tree validate
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testRemoveLeafNode [
 
 	tree addAll: #(50 30 70 20).
@@ -356,6 +464,18 @@ CTAVLTreeTest >> testRemoveRoot [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testReverseInsertions [
+
+	15 to: 1 by: -1 do: [ :i |
+		tree add: i.
+		self assert: tree validate
+	].
+	
+	self assert: tree height <= 5.
+	self assert: tree asArray equals: (1 to: 15) asArray
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testSelect [
 
 	| evens |
@@ -363,6 +483,19 @@ CTAVLTreeTest >> testSelect [
 	
 	evens := tree select: [ :each | each even ].
 	self assert: evens asArray equals: #(20 30 40 50 70)
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSequentialInsertions [
+
+	"Test inserting elements in order (worst case for unbalanced BST)"
+	1 to: 15 do: [ :i |
+		tree add: i.
+		self assert: tree validate
+	].
+	
+	"Height should remain logarithmic"
+	self assert: tree height <= 5
 ]
 
 { #category : 'tests' }

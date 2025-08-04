@@ -1,9 +1,5 @@
 "
-I test the AVL Tree implementation (CTAVLTree).
-I verify correctness of all tree operations including insertion, deletion, search, traversals, and collection protocol methods. I test edge cases like empty trees, single nodes, and complex removal scenarios.
-I ensure the AVL tree maintains both BST ordering property and AVL balance property through all operations, including automatic rebalancing via rotations.
-I test all four rotation cases and verify O(log n) height guarantees.
-
+An AVLTest is a test class for testing the behavior of AVL
 "
 Class {
 	#name : 'CTAVLTreeTest',
@@ -17,500 +13,340 @@ Class {
 
 { #category : 'running' }
 CTAVLTreeTest >> setUp [
-	
+
 	super setUp.
 	tree := CTAVLTree new
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAddMultipleElements [
+CTAVLTreeTest >> testAddForLLrotation [
 
-	tree addAll: #(50 30 70).
-	self assert: tree size equals: 3
+	| data |
+	tree add: 3.
+	self assert: tree isBalanced.
+	tree add: 2.
+	self assert: tree isBalanced.
+	tree add: 1.
+	self assert: tree isBalanced.
+	data := tree collect: #yourself.
+	self assert: data asArray equals: { 1. 2. 3 }
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAddSingleElement [
+CTAVLTreeTest >> testAddForRRrotation [
 
-	tree add: 42.
-	self deny: tree isEmpty.
-	self assert: tree size equals: 1.
-	self assert: tree height equals: 1
+	| data |
+	tree add: 1.
+	self assert: tree isBalanced.
+	tree add: 2.
+	self assert: tree isBalanced.
+	tree add: 3.
+	self assert: tree isBalanced.
+	data := tree collect: #yourself.
+	self assert: data asArray equals: { 1. 2. 3 }
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAnySatisfy [
+CTAVLTreeTest >> testAddOneElement [
 
-	tree addAll: #(50 30 70 20 40).
-	
-	self assert: (tree anySatisfy: [ :each | each > 60 ]).
-	self deny: (tree anySatisfy: [ :each | each > 100 ])
+	tree add: 1.
+	self assert: tree isNotEmpty.
+	self assert: (tree includes: 1)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAsArray [
+CTAVLTreeTest >> testAddTreeElements [
 
-	tree addAll: #(50 30 70 20 40).
-	self assert: tree asArray equals: #(20 30 40 50 70)
+	tree addAll: { 2. 4. 10 }.
+	self assert: (tree includes: 2).
+	self assert: (tree includes: 4).
+	self assert: (tree includes: 10)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testAtIfAbsent [
+CTAVLTreeTest >> testAllChildren [
 
-	tree addAll: #(50 30 70).
-	self assert: (tree at: 30 ifAbsent: [ #notFound ]) equals: 30.
-	self assert: (tree at: 99 ifAbsent: [ #notFound ]) equals: #notFound
+	| allChildren |
+	allChildren := tree allChildren.
+	self assert: allChildren isEmpty.
+	tree addAll: { 4. 2. 3. 10 }.
+	allChildren := tree allChildren.
+	self assert: allChildren size equals: 4.
+	self assert: allChildren first class equals: CTAVLNode
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testClear [
-
-	tree clear.
-	self assert: tree isEmpty.
-	self assert: tree size equals: 0
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testCollect [
-
-	| doubled |
-	tree addAll: #(50 30 70 20 40).
-	
-	doubled := tree collect: [ :each | each * 2 ].
-	self assert: doubled asArray equals: #(40 60 80 100 140)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testComplexRotations [
-
-	"Test more complex rotation scenarios"
-	tree addAll: #(50 30 70 20 40 60 80 10).
-	self assert: tree validate.
-	
-	"Add more elements to trigger multiple rotations"
-	tree addAll: #(5 15 25 35 45).
-	self assert: tree validate.
-	
-	"Height should remain logarithmic"
-	self assert: tree height <= 5
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testCopy [
-
-	| copiedTree |
-	tree addAll: #(50 30 70).
-	copiedTree := tree copy.
-	
-	self assert: copiedTree size equals: tree size.
-	self assert: copiedTree asArray equals: tree asArray.
-	copiedTree add: 99.
-	self deny: (tree includes: 99).
-	self assert: (copiedTree includes: 99)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testDetect [
-
-	| found |
-	tree addAll: #(50 30 70 20 40).
-	
-	found := tree detect: [ :each | each > 45 ] ifNone: [ nil ].
-	self assert: found equals: 50.
-	
-	found := tree detect: [ :each | each > 100 ] ifNone: [ #none ].
-	self assert: found equals: #none
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testDoMethod [
-
-	| result |
-	tree addAll: #(50 30 70 20 40).
-	
-	result := OrderedCollection new.
-	tree do: [ :each | result add: each ].
-	
-	self assert: result asArray equals: #(20 30 40 50 70)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testDuplicateHandling [
-
-	tree addAll: #(42 42 50).
-	self assert: tree size equals: 2
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testElementsFromTo [
-
-	| result |
-	tree addAll: #(50 30 70 20 40 60 80).
-	
-	result := tree elementsFrom: 35 to: 65.
-	self assert: result asArray equals: #(40 50 60).
-	
-	"Test edge cases"
-	result := tree elementsFrom: 10 to: 15.
-	self assert: result isEmpty.
-	
-	result := tree elementsFrom: 65 to: 35. "Invalid range"
-	self assert: result isEmpty
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testElementsGreaterThan [
-
-	| result |
-	tree addAll: #(50 30 70 20 40 60 80).
-	
-	result := tree elementsGreaterThan: 45.
-	self assert: result asArray equals: #(50 60 70 80).
-	
-	result := tree elementsGreaterThan: 80.
-	self assert: result isEmpty
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testElementsLessThan [
-
-	| result |
-	tree addAll: #(50 30 70 20 40 60 80).
-	
-	result := tree elementsLessThan: 45.
-	self assert: result asArray equals: #(20 30 40).
-	
-	result := tree elementsLessThan: 20.
-	self assert: result isEmpty
+CTAVLTreeTest >> testDuplicateElement [
+    tree add: 42.
+    "Adding the same element again should maintain balance"
+    tree add: 42.
+    self assert: tree isBalanced.
+    "Removing one instance of the element should keep the other"
+    tree remove: 42.
+    self assert: (tree includes: 42).
+    tree remove: 42.
+    self assert: tree isEmpty
 ]
 
 { #category : 'tests' }
 CTAVLTreeTest >> testEmpty [
 
-	self assert: tree isEmpty.
-	self assert: tree size equals: 0.
-	self assert: tree height equals: 0
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testEmptyTreeOperations [
-
-	self assert: tree findMin isNil.
-	self assert: tree findMax isNil.
-	self deny: (tree includes: 42).
-	
-	self deny: (tree anySatisfy: [ :each | true ])
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testFindMinMax [
-
-	self assert: tree findMin isNil.
-	self assert: tree findMax isNil.
-	
-	tree addAll: #(50 30 70 20 80).
-	self assert: tree findMin equals: 20.
-	self assert: tree findMax equals: 80
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testFindMinMaxNode [
-
-	tree addAll: #(50 30 70 20 80).
-	
-	self assert: tree findMinNode contents equals: 20.
-	self assert: tree findMaxNode contents equals: 80
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testFirstLast [
-
-	tree addAll: #(50 30 70 20 80).
-	self assert: tree first equals: 20.
-	self assert: tree last equals: 80
+	self assert: tree isEmpty
 ]
 
 { #category : 'tests' }
 CTAVLTreeTest >> testHeight [
 
 	self assert: tree height equals: 0.
-	
-	tree add: 50.
+	tree add: 4.
 	self assert: tree height equals: 1.
-	
-	tree addAll: #(30 70).
+	tree add: 2.
+	self assert: tree height equals: 2.
+	tree add: 10.
 	self assert: tree height equals: 2
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testIfEmptyIfNotEmpty [
+CTAVLTreeTest >> testIsBalanced [
 
-	| result |
-	result := tree ifEmpty: [ #empty ].
-	self assert: result equals: #empty.
-	
-	tree add: 42.
-	result := tree ifNotEmpty: [ :t | #notEmpty ].
-	self assert: result equals: #notEmpty
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testInOrderTraversal [
-
-	| result |
-	tree addAll: #(50 30 70 20 40).
-	
-	result := OrderedCollection new.
-	tree inOrderDo: [ :each | result add: each ].
-	
-	self assert: result asArray equals: #(20 30 40 50 70)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testIncludes [
-	
-	tree addAll: #(50 30 70 20 40).
-	
-	self assert: (tree includes: 50).
-	self assert: (tree includes: 30).
-	self deny: (tree includes: 99)
+	self assert: tree isBalanced.
+	tree add: 4.
+	self assert: tree isBalanced.
+	tree add: 2.
+	self assert: tree isBalanced.
+	tree add: 10.
+	self assert: tree isBalanced
 ]
 
 { #category : 'tests' }
 CTAVLTreeTest >> testIsLeaf [
 
-	tree add: 50.
-	self assert: tree root isLeaf.
-	
-	tree add: 30.
-	self deny: tree root isLeaf.
-	self assert: tree root left isLeaf
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testLLRotation [
-
-	tree add: 3.
-	tree add: 2.
+	self assert: tree isNil.
 	tree add: 1.
+	self assert: tree isLeaf.
 	
-	self assert: tree root contents equals: 2.
-	self assert: tree asArray equals: #(1 2 3)
+	tree add: 10.
+	self deny: tree isLeaf.
+	
+	tree:= CTAVLTree new.
+	tree add: 10.
+	tree add: 5.
+	self deny: tree isLeaf.
 ]
 
 { #category : 'tests' }
 CTAVLTreeTest >> testLRRotation [
-
-	tree add: 3.
-	tree add: 1.
-	tree add: 2.
-	
-	self assert: tree root contents equals: 2.
-	self assert: tree asArray equals: #(1 2 3)
+    "Test LR rotation"
+|data|
+tree := CTAVLTree new.
+tree add: 1.
+tree add: 3.
+tree add: 2.
+self assert: tree isBalanced.
+data := tree collect: #yourself.
+self assert: data asArray equals: { 1. 2. 3 }.
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testNegativeNumbers [
+CTAVLTreeTest >> testRemove [
 
-	tree addAll: #(-10 -5 0 5 10).
-	
-	self assert: tree findMin equals: -10.
-	self assert: tree findMax equals: 10.
-	self assert: tree asArray equals: #(-10 -5 0 5 10).
-	self assert: tree validate
+	tree addAll: { 9. 4. 16. 7. 13. 19. 15 }.
+	tree add: 10.
+	tree add: 14.
+	tree add: 11.
+	tree remove: 13.
+	self assert: tree isTotalBalanced
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testParentChildRelationships [
+CTAVLTreeTest >> testRemoveBranchWithOneChild [
 
-	tree addAll: #(50 30 70 20 40).
-	
-	self assert: tree root parent isNil.
-	self assert: tree root left parent equals: tree root.
-	self assert: tree root right parent equals: tree root
+	tree addAll: { 9. 4. 16. 13. 15 }.
+	tree add: 14.
+	tree remove: 9.
+	self deny: (tree includes: 9).
+	self assert: (tree includes: 14)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testPostOrderTraversal [
+CTAVLTreeTest >> testRemoveBranchWithTwoChildren [
 
-	| result |
-	tree addAll: #(50 30 70 20).
-	result := OrderedCollection new.
-	tree postOrderDo: [ :each | result add: each ].
-	self assert: result last equals: tree root contents
+	tree addAll: { 9. 4. 16. 13. 15. 10 }.
+	tree add: 14.
+	tree remove: 15.
+	self deny: (tree includes: 15).
+	self assert: (tree includes: 14).
+	self assert: (tree includes: 16)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testPreOrderTraversal [
+CTAVLTreeTest >> testRemoveBranchWithTwoChildren2 [
 
-	| result |
-	tree addAll: #(50 30 70 20).
-	result := OrderedCollection new.
-	tree preOrderDo: [ :each | result add: each ].
-	self assert: result first equals: tree root contents
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testPredecessorSuccessor [
-
-	tree addAll: #(50 30 70 20 40 60 80).
-	
-	self assert: (tree predecessorOf: 50) equals: 40.
-	self assert: (tree predecessorOf: 20) isNil.
-	self assert: (tree successorOf: 50) equals: 60.
-	self assert: (tree successorOf: 80) isNil.
-	
-	"Test with non-existent element"
-	self assert: (tree predecessorOf: 35) equals: 30.
-	self assert: (tree successorOf: 35) equals: 40
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRLRotation [
-
-	tree add: 1.
-	tree add: 3.
-	tree add: 2.
-	
-	self assert: tree root contents equals: 2.
-	self assert: tree asArray equals: #(1 2 3)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRRRotation [
-
-	tree add: 1.
-	tree add: 2.
-	tree add: 3.
-	
-	self assert: tree root contents equals: 2.
-	self assert: tree asArray equals: #(1 2 3)
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRemovalCausingRebalancing [
-
-	tree addAll: #(50 30 70 20 40 60 80 10 25).
-	
-	"Remove elements that should trigger rebalancing"
-	tree remove: 10.
-	tree remove: 20.
-	tree remove: 25.
-	
-	self assert: tree validate
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRemoveAll [
-
-	tree addAll: #(50 30 70 20 40).
-	tree removeAll: #(30 70).
-	
-	self assert: tree size equals: 3.
-	self deny: (tree includes: 30).
-	self deny: (tree includes: 70).
-	self assert: tree validate
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRemoveLeafNode [
-
-	tree addAll: #(50 30 70 20).
-	
-	tree remove: 20.
-	self assert: tree size equals: 3.
-	self deny: (tree includes: 20).
-	self assert: tree validate
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testRemoveNodeWithOneChild [
-
-	tree addAll: #(50 30 20).
-	tree remove: 30.
-	self assert: tree size equals: 2.
-	self deny: (tree includes: 30).
+	tree addAll: { 9. 4. 16. 13. 15. 10. 14. 20 }.
+	tree remove: 15.
+	self deny: (tree includes: 15).
 	self assert: (tree includes: 20).
-	self assert: tree validate
+	self assert: (tree includes: 14).
+	self assert: (tree includes: 16)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testRemoveNodeWithTwoChildren [
+CTAVLTreeTest >> testRemoveBranchWithTwoChildren3 [
 
-		tree addAll: #(50 30 70 20 40).
-	
-	tree remove: 30.
-	self assert: tree size equals: 4.
-	self deny: (tree includes: 30).
-	self assert: tree validate
+	tree addAll: { 9. 4. 17. 13. 15. 10. 14. 20. 16 }.
+	tree remove: 15.
+	self deny: (tree includes: 15).
+	self assert: (tree includes: 20).
+	self assert: (tree includes: 14).
+	self assert: (tree includes: 16).
+	self assert: (tree includes: 17).
+	self assert: tree isBalanced
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testRemoveNonExistentElement [
-
-	| result |
-	tree addAll: #(50 30 70).
-	result := tree remove: 99 ifAbsent: [ #notFound ].
-	self assert: result equals: #notFound.
-	self assert: tree size equals: 3.
-	
-	self should: [ tree remove: 99 ] raise: Error
+CTAVLTreeTest >> testRemoveFromEmptyTree [
+    | executed |
+    executed := false.
+    tree remove: 42 ifAbsent: [ executed := true ].
+    self assert: executed description: 'The ifAbsent: block should execute when removing from an empty tree'.
+    self assert: tree isEmpty description: 'Tree should remain empty after removal attempt'.
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testRemoveRoot [
+CTAVLTreeTest >> testRemoveRootChildren [
 
-	tree addAll: #(50 30 70 20 40 60 80).
-	tree remove: 50.
-	self assert: tree size equals: 6.
-	self deny: (tree includes: 50).
-	self assert: tree validate
+	tree addAll: { 9 }.
+	tree remove: 9.
+	self assert: tree isEmpty
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testReverseInsertions [
+CTAVLTreeTest >> testRemoveRootChildren1 [
 
-	15 to: 1 by: -1 do: [ :i |
-		tree add: i.
-		self assert: tree validate
-	].
-	
-	self assert: tree height <= 5.
-	self assert: tree asArray equals: (1 to: 15) asArray
+	tree addAll: { 9. 7. 10 }.
+	tree remove: 10.
+	self assert: tree size equals: 2.
+	self assert: (tree includes: 9).
+	self assert: (tree includes: 7)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testSelect [
+CTAVLTreeTest >> testRemoveRootChildren2 [
 
-	| evens |
-	tree addAll: #(50 30 70 20 40).
-	
-	evens := tree select: [ :each | each even ].
-	self assert: evens asArray equals: #(20 30 40 50 70)
+	tree addAll: { 9. 7 }.
+	tree remove: 7.
+	self assert: tree size equals: 1.
+	self assert: (tree includes: 9)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testSequentialInsertions [
+CTAVLTreeTest >> testRemoveRootChildren3 [
 
-	"Test inserting elements in order (worst case for unbalanced BST)"
-	1 to: 15 do: [ :i |
-		tree add: i.
-		self assert: tree validate
-	].
-	
-	"Height should remain logarithmic"
-	self assert: tree height <= 5
+	tree addAll: { 9. 7. 10 }.
+	tree remove: 9.
+	self assert: tree size equals: 2.
+	self deny: (tree includes: 9).
+	self assert: (tree includes: 10).
+	self assert: (tree includes: 7)
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testValidation [
+CTAVLTreeTest >> testRemoveZero [
 
-	self assert: tree validate.
+	| value |
+	value := false.
+	tree remove: 1 ifAbsent: [ value := true ].
+	self assert: value
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSearch [
+
+	tree addAll: { 4. 2. 3. 10 }.
+	self assert: (tree search: 5) isNil.
+	self assert: (tree search: 4) equals: 4.
+	self assert: (tree search: 2) equals: 2.
+	self assert: (tree search: 10) equals: 10
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSeriousAdd [
+
+	tree addAll: { 9. 4. 16. 7. 13. 19. 15 }.
+	self assert: tree isBalanced.
+	tree add: 10.
+	self assert: tree isBalanced.
+	tree add: 14.
+	self assert: tree isBalanced
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSeriousRandomAdd [
+
+	| r size numbers |
+	r := Random new.
+	r seed: 1234.
+	size := 50.
+	numbers := (1 to: size) collect: [ :i | r nextInteger: size ].
+	numbers := numbers asSet.
+	numbers do: [ :n | 
+		tree add: n.
+		self assert: tree isBalanced ]
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSeriousRandomRemove [
+
+	| r size numbers toRemove |
+	r := Random new.
+	r seed: 1234.
+	size := 50.
+	numbers := (1 to: size) collect: [ :i | r nextInteger: size ].
+	numbers := numbers asSet.
+	tree addAll: numbers.
+	self assert: tree isTotalBalanced.
+	toRemove := (1 to: 20) collect: [ :i | numbers atRandom: r ] as: Set.
+	toRemove do: [ :number | 
+		tree remove: number.
+		self assert: tree isTotalBalanced ]
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSizeAfterRemoval [
+	tree addAll: #(1 2 3 4 5).
+	tree remove: 3.
+	self assert: tree size equals: 4
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSizeEmpty [
+	self assert: tree size equals: 0
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSizeMultipleElements [
+	tree addAll: #(1 2 3 4 5).
+	self assert: tree size equals: 5
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testSizeOneElement [
+	tree add: 42.
+	self assert: tree size equals: 1
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testChildParentRelationship [
+	tree add: 50.
+	tree add: 30.
+	tree add: 70.
 	
-	tree addAll: #(50 30 70 20 40).
-	self assert: tree validate.
-	
-	"Test after operations"
-	tree add: 60.
-	self assert: tree validate
+	self assert: (tree root left parent) equals: tree root.
+	self assert: (tree root right parent) equals: tree root
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testRootHasNoParent [
+	tree add: 14.
+	self assert: tree root parent isNil
 ]

@@ -1,10 +1,16 @@
 "
-I am an abstract base class for AVL Tree nodes.
-I define the common interface that both regular nodes (CTAVLNode) and nil nodes (CTAVLNilNode) must implement.
-I include protocol for AVL-specific operations like height, balance factor, and rebalancing, as well as standard tree enumeration and searching.
+AVLAbstractNode is an abstract class that represents a node in an AVL tree.
+
+AVL trees are self-balancing binary search trees. This abstract node class is designed to be subclassed by concrete AVL node classes. It provides common methods and instance variables that are essential for maintaining the balance of the AVL tree.
+
+Subclasses of AVLAbstractNode should implement methods for adding, removing, and manipulating nodes in the tree to ensure that the tree remains balanced.
+
 Subclasses:
-- CTAVLNilNode
-- CTAVLNode
+- AVLNilNode
+- AVLNode
+
+Author: Milton Mamani
+Date: October 20, 2023
 "
 Class {
 	#name : 'CTAVLAbstractNode',
@@ -17,158 +23,71 @@ Class {
 }
 
 { #category : 'adding' }
-CTAVLAbstractNode >> addChild: anObject [
-
+CTAVLAbstractNode >> addChild: newObject [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing' }
-CTAVLAbstractNode >> balanceFactor [
-
-	^ self subclassResponsibility 
+{ #category : 'private' }
+CTAVLAbstractNode >> checkRemovingPath: path [
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
-CTAVLAbstractNode >> contents [
-
-	^ self subclassResponsibility 
+CTAVLAbstractNode >> children [
+	^ #()
 ]
 
 { #category : 'accessing' }
-CTAVLAbstractNode >> contents: anObject [
-
-	^ self subclassResponsibility 
+CTAVLAbstractNode >> allChildren [
+	^ #()
 ]
 
 { #category : 'enumerating' }
-CTAVLAbstractNode >> elementsFrom: min to: max into: aCollection [
-
-		^ self subclassResponsibility
-
-]
-
-{ #category : 'enumerating' }
-CTAVLAbstractNode >> elementsGreaterThan: anObject into: aCollection [
-
+CTAVLAbstractNode >> childrenDo: aBlock [
 	^ self subclassResponsibility
 ]
 
 { #category : 'enumerating' }
-CTAVLAbstractNode >> elementsLessThan: anObject into: aCollection [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> findMax [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> findMaxNode [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> findMin [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> findMinNode [
-
-	^ self subclassResponsibility 
+CTAVLAbstractNode >> do: aBlock [
+	"Default is to do nothing"
 ]
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> height [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'enumerating' }
-CTAVLAbstractNode >> inOrderDo: aBlock [
-
-	^ self subclassResponsibility
+	^ 0
 ]
 
 { #category : 'testing' }
-CTAVLAbstractNode >> isEmpty [
-
-	^ self subclassResponsibility
+CTAVLAbstractNode >> isBalanced [
+	^ true
 ]
 
 { #category : 'testing' }
-CTAVLAbstractNode >> isLeaf [ 
+CTAVLAbstractNode >> isTotalBalanced [
+	^ true
+]
 
-	^ self subclassResponsibility 
+{ #category : 'accessing' }
+CTAVLAbstractNode >> nodeSize [
+	^ self subclassResponsibility
+]
+
+{ #category : 'removing' }
+CTAVLAbstractNode >> remove: anObject path: list [
+	^ nil
+]
+
+{ #category : 'accessing' }
+CTAVLAbstractNode >> withAllChildren: aCollection [ 
+	"Default is to do nothing"
 ]
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> parent [
-
-	^ parent 
+	^ parent
 ]
 
 { #category : 'accessing' }
 CTAVLAbstractNode >> parent: aNode [
-
 	parent := aNode
-]
-
-{ #category : 'enumerating' }
-CTAVLAbstractNode >> postOrderDo: aBlock [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'enumerating' }
-CTAVLAbstractNode >> preOrderDo: aBlock [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> predecessorOf: anObject [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'removing' }
-CTAVLAbstractNode >> removeValue: anObject [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'accessing' }
-CTAVLAbstractNode >> search: anObject [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-CTAVLAbstractNode >> size [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'searching' }
-CTAVLAbstractNode >> successorOf: anObject [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'validation' }
-CTAVLAbstractNode >> validateAsRoot [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : 'validation' }
-CTAVLAbstractNode >> validateWithMin: min max: max [
-
-	^ self subclassResponsibility 
 ]

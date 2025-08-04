@@ -1,7 +1,10 @@
 "
-I represent an empty node in an AVL Tree using the Null Object pattern.
-I provide default 'do nothing' behavior for all tree operations, eliminating the need for nil checks throughout the tree algorithms. This makes the code cleaner and prevents null pointer errors.
-When elements are added to me, I create and return a new CTAVLNode containing the element, effectively growing the tree. I maintain height 0 and am always balanced
+AVLNilNode is a special sentinel node used in AVL trees to represent the absence of a node.
+
+In an AVL tree, `AVLNilNode` is used as a placeholder for null references, making it easier to perform tree operations without special cases for missing children. It fully implements the Null Object pattern.
+
+Author: Milton Mamani
+Date: October 20, 2023
 "
 Class {
 	#name : 'CTAVLNilNode',
@@ -11,147 +14,61 @@ Class {
 }
 
 { #category : 'adding' }
-CTAVLNilNode >> addChild: anObject [
+CTAVLNilNode >> addChild: newObject [
+	^ self parent replace: self with: (CTAVLNode with: newObject)
+]
 
-	^ CTAVLNode new
-		contents: anObject;
-		parent: self parent;
-		yourself
+{ #category : 'private' }
+CTAVLNilNode >> checkRemovingPath: path [
+	"Do nothing for nil node"
 ]
 
 { #category : 'accessing' }
-CTAVLNilNode >> balanceFactor [
-
-	^ 0
+CTAVLNilNode >> children [
+	^ #()
 ]
 
 { #category : 'accessing' }
-CTAVLNilNode >> contents [
-
-	^ nil
+CTAVLNilNode >> allChildren [
+	^ #()
 ]
 
-{ #category : 'accessing' }
-CTAVLNilNode >> contents: anObject [
-
+{ #category : 'enumerating' }
+CTAVLNilNode >> childrenDo: aBlock [
 	"Do nothing for nil node"
 ]
 
 { #category : 'enumerating' }
-CTAVLNilNode >> elementsFrom: min to: max into: aCollection [
-
-	"Do Nothing for Nil Node"
-]
-
-{ #category : 'enumerating' }
-CTAVLNilNode >> elementsGreaterThan: anObject into: aCollection [
-
-	"Do Nothing for Nil Node"
-]
-
-{ #category : 'enumerating' }
-CTAVLNilNode >> elementsLessThan: anObject into: aCollection [
-
-	"Do Nothing for Nil Node"
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> findMax [ 
-
-	^ nil
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> findMaxNode [
-
-	^ self
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> findMin [
-
-	^ nil
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> findMinNode [
-
-	^ self
+CTAVLNilNode >> do: aBlock [
+	"Do nothing for nil node"
 ]
 
 { #category : 'accessing' }
-CTAVLNilNode >> height [ 
-	
+CTAVLNilNode >> height [
 	^ 0
 ]
 
-{ #category : 'enumerating' }
-CTAVLNilNode >> inOrderDo: aBlock [
-
-	"Do Nothing for Nil Node"
-]
-
 { #category : 'testing' }
-CTAVLNilNode >> isEmpty [
-
+CTAVLNilNode >> isBalanced [
 	^ true
 ]
 
 { #category : 'testing' }
-CTAVLNilNode >> isLeaf [ 
-	^ false
+CTAVLNilNode >> isTotalBalanced [
+	^ true
 ]
 
-{ #category : 'enumerating' }
-CTAVLNilNode >> postOrderDo: aBlock [
-
-	"Do Nothing for Nil Node"
-]
-
-{ #category : 'enumerating' }
-CTAVLNilNode >> preOrderDo: aBlock [
-
-	"Do Nothing for Nil Node"
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> predecessorOf: anObject [
-
-	^ nil
+{ #category : 'accessing' }
+CTAVLNilNode >> nodeSize [
+	^ 0
 ]
 
 { #category : 'removing' }
-CTAVLNilNode >> removeValue: anObject [
-
-	^ self 
-]
-
-{ #category : 'accessing' }
-CTAVLNilNode >> search: anObject [
-
+CTAVLNilNode >> remove: anObject path: list [
 	^ nil
 ]
 
 { #category : 'accessing' }
-CTAVLNilNode >> size [
-
-	^ 0
-]
-
-{ #category : 'searching' }
-CTAVLNilNode >> successorOf: anObject [
-
-	^ nil
-]
-
-{ #category : 'validation' }
-CTAVLNilNode >> validateAsRoot [
-
-	^ true
-]
-
-{ #category : 'validation' }
-CTAVLNilNode >> validateWithMin: min max: max [
-
-	^ true
+CTAVLNilNode >> withAllChildren: aCollection [
+	"Do nothing for nil node"
 ]

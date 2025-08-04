@@ -1,7 +1,19 @@
 "
-I represent a node in an AVL Tree.
-I extend the functionality of a standard BST node by storing my height and performing self-balancing rotations after any modification (add or remove) to ensure the tree's height balance is maintained.
-The AVL invariant I maintain is: |height(left) - height(right)| <= 1
+AVLNode represents a node in an AVL tree.
+
+An AVL tree is a self-balancing binary search tree where the heights of the two child subtrees of every node differ by at most one. The `AVLNode` class extends the `AVLAbstractNode` class and provides the implementation of actual nodes within the AVL tree.
+
+AVLNode instances hold a `contents` instance variable. These nodes are organized to keep the tree balanced, ensuring efficient operations like insertion, deletion, and search.
+
+This class should not be used directly; instead use `AVLTree`.
+
+Instance Variables:
+- contents: The value associated with this node.
+- left: The left child node.
+- right: The right child node.
+
+Author: Milton Mamani
+Date: October 20, 2023
 "
 Class {
 	#name : 'CTAVLNode',
@@ -9,8 +21,7 @@ Class {
 	#instVars : [
 		'left',
 		'contents',
-		'right',
-		'height'
+		'right'
 	],
 	#category : 'Containers-AVL-Tree',
 	#package : 'Containers-AVL-Tree'
@@ -26,305 +37,299 @@ CTAVLNode class >> with: anInteger [
 ]
 
 { #category : 'adding' }
-CTAVLNode >> addChild: anObject [
+CTAVLNode >> add: anInteger path: list [
+	anInteger < contents ifTrue: [ 
+		list add: false -> left.
+		left := left addChild: anInteger.
+	] ifFalse: [ 
+		list add: true -> right.
+		right := right addChild: anInteger.
+	]
+]
 
-	anObject < contents
-		ifTrue: [ self left: (left addChild: anObject) ]
-		ifFalse: [
-			anObject > contents
-				ifTrue: [ self right: (right addChild: anObject) ] ].
-	^ self updateHeightAndRebalance
+{ #category : 'adding' }
+CTAVLNode >> addChild: newObject [
+	| path |
+	path := OrderedCollection with: nil -> self.
+	self add: newObject path: path.
+	self checkPath: path.
+	^ self
+]
+
+{ #category : 'private' }
+CTAVLNode >> balance: index path: aCollection [ 
+	| x y z a b c |
+	z := aCollection at: index.
+	y := aCollection at: index + 1.
+	x := aCollection at: index + 2.
+	c := z value.
+	b := y value.
+	a := x value.
+	(y key and: [ x key ]) ifTrue: [ 
+		^ self rrrotationZ: c y: b x: a ].
+	(y key not and: [ x key not ]) ifTrue: [ 
+		^ self llrotationZ: c y: b x: a ].
+	(y key not and: [ x key ]) ifTrue: [ 
+		^ self lrrotationZ: c y: b x: a ].
+	"(y key and: [ x key not ])"
+	^ self rlrotationZ: c y: b x: a.
+]
+
+{ #category : 'private' }
+CTAVLNode >> balanceZ: z y: y x: x [
+	| a b c |
+	c := z value.
+	b := y value.
+	a := x value.
+	(y key and: [ x key ]) ifTrue: [ 
+		^ self rrrotationZ: c y: b x: a ].
+	(y key not and: [ x key not ]) ifTrue: [ 
+		^ self llrotationZ: c y: b x: a ].
+	(y key not and: [ x key ]) ifTrue: [ 
+		^ self lrrotationZ: c y: b x: a ].
+	"(y key and: [ x key not ])"
+	^ self rlrotationZ: c y: b x: a.
+]
+
+{ #category : 'private' }
+CTAVLNode >> checkPath: aCollection [ 
+	aCollection size < 3 ifTrue: [ ^ self ].
+	(1 to: aCollection size - 2) reverseDo: [ :index |
+		| assoc |
+		assoc := aCollection at: index.
+		assoc value isBalanced ifFalse: [ | z y x |
+			z := aCollection at: index.
+			y := aCollection at: index + 1.
+			x := aCollection at: index + 2.
+			^ self balanceZ: z y: y x: x ] ]
+]
+
+{ #category : 'private' }
+CTAVLNode >> checkRemovingPath: path [
+	path reverseDo: [ :node | 
+		node isBalanced ifFalse: [ | z y x |
+			z := node.
+			y := z largerNode.
+			x := y value largerNode.
+			self balanceZ: node y: y x: x ] ].
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> balanceFactor [
+CTAVLNode >> children [
+	^ { left. right }
+]
 
-	^ left height - right height
+{ #category : 'accessing' }
+CTAVLNode >> allChildren [
+	"Collects all child nodes recursively."
+	| children |
+	children := OrderedCollection new.
+	self left ifNotNil: [children addAll: self left allChildren].
+	self right ifNotNil: [children addAll: self right allChildren].
+	children add: self.
+	^ children.
+]
+
+{ #category : 'enumerating' }
+CTAVLNode >> childrenDo: aBlock [
+	left childrenDo: aBlock.
+	right childrenDo: aBlock.
 ]
 
 { #category : 'accessing' }
 CTAVLNode >> contents [
-
 	^ contents
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> contents: anObject [
-
-	contents := anObject
+CTAVLNode >> contents: anInteger [ 
+	contents := anInteger
 ]
 
 { #category : 'enumerating' }
-CTAVLNode >> elementsFrom: min to: max into: aCollection [
-
-	contents > min ifTrue: [
-		left elementsFrom: min to: max into: aCollection ].
-	(contents between: min and: max) ifTrue: [ aCollection add: contents ].
-	contents < max ifTrue: [
-		right elementsFrom: min to: max into: aCollection ]
+CTAVLNode >> do: aBlock [
+	left do: aBlock.
+	aBlock value: self contents.
+	right do: aBlock.
 ]
 
-{ #category : 'enumerating' }
-CTAVLNode >> elementsGreaterThan: anObject into: aCollection [
-
-	contents > anObject ifTrue: [
-		left elementsGreaterThan: anObject into: aCollection.
-		aCollection add: contents ].
-	right elementsGreaterThan: anObject into: aCollection
-]
-
-{ #category : 'enumerating' }
-CTAVLNode >> elementsLessThan: anObject into: aCollection [
-
-	left elementsLessThan: anObject into: aCollection.
-	contents < anObject ifFalse: [ ^ self ].
-	aCollection add: contents.
-	right elementsLessThan: anObject into: aCollection
-]
-
-{ #category : 'searching' }
-CTAVLNode >> findMax [
-
-	^ right isEmpty
-		ifTrue: [ contents ]
-		ifFalse: [ right findMax ]
-]
-
-{ #category : 'searching' }
-CTAVLNode >> findMaxNode [ 
-
-	^ right isEmpty
-		ifTrue: [ self ]
-		ifFalse: [ right findMaxNode ]
-]
-
-{ #category : 'searching' }
-CTAVLNode >> findMin [
-
-	^ left isEmpty
-		ifTrue: [ contents ]
-		ifFalse: [ left findMin ]
-]
-
-{ #category : 'searching' }
-CTAVLNode >> findMinNode [ 
-
-	^ left isEmpty
-		ifTrue: [ self ]
-		ifFalse: [ left findMinNode ]
+{ #category : 'testing' }
+CTAVLNode >> hasNoChildren [
+	^ left nodeSize = 0 and: [ right nodeSize = 0 ]
 ]
 
 { #category : 'accessing' }
 CTAVLNode >> height [
-
-	^ height 
-]
-
-{ #category : 'enumerating' }
-CTAVLNode >> inOrderDo: aBlock [
-
-	left inOrderDo: aBlock.
-	aBlock value: contents.
-	right inOrderDo: aBlock
-]
-
-{ #category : 'initialization' }
-CTAVLNode >> initialize [
-
-	super initialize.
-	left := CTAVLNilNode new parent: self.
-	right := CTAVLNilNode new parent: self.
-	height := 1
+	^ (left height max: right height) + 1
 ]
 
 { #category : 'testing' }
-CTAVLNode >> isEmpty [
-
-	^ false
+CTAVLNode >> isBalanced [
+	^ (left height - right height) abs <= 1
 ]
 
 { #category : 'testing' }
-CTAVLNode >> isLeaf [ 
-	^ left isEmpty and: [ right isEmpty ]
+CTAVLNode >> isTotalBalanced [
+	^ self isBalanced 
+		and: [ left isTotalBalanced 
+			and: [ right isTotalBalanced ] ]
+]
+
+{ #category : 'accessing' }
+CTAVLNode >> largerNode [
+	| size1 size2 isLeft |
+	size1 := left height.
+	size2 := right height.
+	isLeft := size1 > size2.
+	^ isLeft not -> (isLeft ifTrue: [ left ] ifFalse: [ right ])
 ]
 
 { #category : 'accessing' }
 CTAVLNode >> left [
-
 	^ left
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> left: aNode [
-
+CTAVLNode >> left: aNode [ 
 	left := aNode.
-	aNode ifNotNil: [ aNode parent: self ]
-]
-
-{ #category : 'enumerating' }
-CTAVLNode >> postOrderDo: aBlock [
-
-	left postOrderDo: aBlock.
-	right postOrderDo: aBlock.
-	aBlock value: contents
-]
-
-{ #category : 'enumerating' }
-CTAVLNode >> preOrderDo: aBlock [
-
-	aBlock value: contents.
-	left preOrderDo: aBlock.
-	right preOrderDo: aBlock
-]
-
-{ #category : 'searching' }
-CTAVLNode >> predecessorOf: anObject [
-
-	| rightResult |
-	anObject <= contents ifTrue: [
-		^ left predecessorOf: anObject ].
-	rightResult := right predecessorOf: anObject.
-	^ rightResult ifNil: [ contents ] ifNotNil: [ rightResult ]
+	aNode parent: self
 ]
 
 { #category : 'private' }
-CTAVLNode >> rebalance [
-
-	| bf |
-	bf := self balanceFactor.
-	"Left-heavy case"
-	bf > 1 ifTrue: [
-		"Left-Right case"
-		(left balanceFactor < 0) ifTrue: [ self left: left rotateLeft ].
-		^ self rotateRight ].
-	"Right-heavy case"
-	bf < -1 ifTrue: [
-		"Right-Left case"
-		(right balanceFactor > 0) ifTrue: [ self right: right rotateRight ].
-		^ self rotateLeft ].
-	^ self "Already balanced"
+CTAVLNode >> llrotationZ: z y: y x: x [ 
+	| a3 a4 new |
+	a3 := y right.
+	a4 := z right.
+	
+	new := self class with: z contents.
+	new left: a3; right: a4.
+	z left: x; contents: y contents; right: new.
 ]
 
 { #category : 'private' }
-CTAVLNode >> removeThisNode [
+CTAVLNode >> lrrotationZ: z y: y x: x [ 
+	| a1 a2 a3 new |
+	a1 := y left.
+	a2 := x left.
+	a3 := x right.
+	new := self class with: y contents.
+	new left: a1; right: a2.
+	y contents: x contents; left: new; right: a3.
+	
+	self llrotationZ: z y: y x: new
+]
 
-	"Handle removal of the current node, then rebalance."
-	| successorValue |
-	"Case 1 & 2: Leaf or one child"
-	left isEmpty ifTrue: [ ^ right ].
-	right isEmpty ifTrue: [ ^ left ].
-	"Case 3: Two children"
-	successorValue := right findMin.
-	self contents: successorValue.
-	self right: (right removeValue: successorValue).
-	^ self updateHeightAndRebalance
+{ #category : 'accessing' }
+CTAVLNode >> nodeSize [
+	^ 1 + left nodeSize + right nodeSize
+]
+
+{ #category : 'printing' }
+CTAVLNode >> printOn: stream [
+	contents printOn: stream
 ]
 
 { #category : 'removing' }
-CTAVLNode >> removeValue: anObject [
+CTAVLNode >> remove: anObject path: list [
+	contents = anObject ifTrue: [
+		^ self
+	] ifFalse: [ 
+		| node nodeToRemove isLeft |
+		isLeft := anObject < contents.
+		node := isLeft ifTrue: [ left ] ifFalse: [ right ].
+		list add: self.
+		nodeToRemove := node remove: anObject path: list.
+		nodeToRemove == node ifTrue: [
+			| successor |
+			successor := node successor: list.
+			isLeft 
+				ifTrue: [ left := successor ]
+				ifFalse: [ right := successor ]
+		].
+		^ nodeToRemove
+	].
+]
 
-	anObject < contents ifTrue: [
-		self left: (left removeValue: anObject).
-		^ self updateHeightAndRebalance ].
-	anObject > contents ifTrue: [
-		self right: (right removeValue: anObject).
-		^ self updateHeightAndRebalance ].
-	"Found the node to remove"
-	^ self removeThisNode
+{ #category : 'removing' }
+CTAVLNode >> removeMinimum: list [
+	| res |
+	left nodeSize = 0 ifTrue: [
+		res := self class with: contents.
+		contents := right contents.
+		left := right left.
+		right := right right ]
+	ifFalse: [ 
+		list add: self.
+		left hasNoChildren ifTrue: [
+			res := left.
+			left := CTAVLNilNode new ]
+		ifFalse: [ res := left removeMinimum: list ] ].
+	^ res
 ]
 
 { #category : 'accessing' }
 CTAVLNode >> right [
-
 	^ right
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> right: aNode [
-
+CTAVLNode >> right: aNode [ 
 	right := aNode.
-	aNode ifNotNil: [ aNode parent: self ]
+	aNode parent: self 
 ]
 
 { #category : 'private' }
-CTAVLNode >> rotateLeft [
-
-	| newRoot |
-	newRoot := right.
-	self right: newRoot left.
-	newRoot left: self.
-	self updateHeight.
-	newRoot updateHeight.
-	^ newRoot
+CTAVLNode >> rlrotationZ: z y: y x: x [ 
+	| a1 a2 a3 a4 new |
+	a1 := z left.
+	a2 := x left.
+	a3 := x right.
+	a4 := y right.
+	new := self class with: y contents.
+	new left: a3; right: a4.
+	y contents: x contents; left: a2; right: new.
+	self rrrotationZ: z y: y x: new
 ]
 
 { #category : 'private' }
-CTAVLNode >> rotateRight [
+CTAVLNode >> rrrotationZ: z y: y x: x [
+	| a1 a2 new |
+	a1 := z left.
+	a2 := y left.
+	
+	new := self class with: z contents.
+	new left: a1; right: a2.
+	z left: new; right: x; contents: y contents
+]
 
-	| newRoot |
-	newRoot := left.
-	self left: newRoot right.
-	newRoot right: self.
-	self updateHeight.
-	newRoot updateHeight.
-	^ newRoot
+{ #category : 'search' }
+CTAVLNode >> search: anInteger [ 
+	contents = anInteger ifTrue: [ ^ contents ].
+	^ (anInteger < contents ifTrue: [ left ] ifFalse: [ right ]) search: anInteger
+]
+
+{ #category : 'removing' }
+CTAVLNode >> successor: list [
+	^ self hasNoChildren
+		ifTrue: [ CTAVLNilNode new ]
+		ifFalse: [ 
+			(left nodeSize > 0 and: [ right nodeSize > 0 ]) ifTrue: [ 
+				right hasNoChildren
+					ifTrue: [ list add: (right left: left; yourself) ]
+					ifFalse: [ | min newList |
+						newList := OrderedCollection new.
+						min := right removeMinimum: newList.
+						list add: min.
+						list addAll: newList.
+						min left: left.
+						min right: right.
+						right := min ]
+			] ifFalse: [ 
+				list add: (left nodeSize = 0 ifTrue: [ right ] ifFalse: [ left ]) ] ]
 ]
 
 { #category : 'accessing' }
-CTAVLNode >> search: anObject [
-
-	contents = anObject ifTrue: [ ^ contents ].
-	^ anObject < contents
-		ifTrue: [ left search: anObject ]
-		ifFalse: [ right search: anObject ]
-]
-
-{ #category : 'accessing' }
-CTAVLNode >> size [
-
-	^ 1 + left size + right size
-]
-
-{ #category : 'searching' }
-CTAVLNode >> successorOf: anObject [
-
-	| leftResult |
-	anObject >= contents ifTrue: [
-		^ right successorOf: anObject ].
-	leftResult := left successorOf: anObject.
-	^ leftResult ifNil: [ contents ] ifNotNil: [ leftResult ]
-]
-
-{ #category : 'private' }
-CTAVLNode >> updateHeight [
-
-height := 1 + (left height max: right height)
-]
-
-{ #category : 'private' }
-CTAVLNode >> updateHeightAndRebalance [
-
-	self updateHeight.
-	^ self rebalance
-]
-
-{ #category : 'validation' }
-CTAVLNode >> validateAsRoot [
-
-	^ self validateWithMin: nil max: nil
-]
-
-{ #category : 'validation' }
-CTAVLNode >> validateWithMin: min max: max [
-
-	"Check BST property"
-	(min notNil and: [ contents < min ]) ifTrue: [ ^ false ].
-	(max notNil and: [ contents > max ]) ifTrue: [ ^ false ].
-	"Check AVL property"
-	(self balanceFactor abs > 1) ifTrue: [ ^ false ].
-	"Check height property"
-	(self height = (1 + (left height max: right height))) ifFalse: [ ^ false ].
-	"Recursively validate children"
-	^ (left validateWithMin: min max: contents) and: [
-		right validateWithMin: contents max: max ]
+CTAVLNode >> withAllChildren: aCollection [ 
+	aCollection add: self.
+	self childrenDo: [ :child | child withAllChildren: aCollection ]
 ]

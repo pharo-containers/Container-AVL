@@ -1,10 +1,7 @@
 "
-AVLNilNode is a special sentinel node used in AVL trees to represent the absence of a node.
-
-In an AVL tree, `AVLNilNode` is used as a placeholder for null references, making it easier to perform tree operations without special cases for missing children. It fully implements the Null Object pattern.
-
-Author: Milton Mamani
-Date: October 20, 2023
+I represent an empty node in an AVL Tree using the Null Object pattern.
+I provide default 'do nothing' behavior for all tree operations, eliminating the need for nil checks throughout the tree algorithms. This makes the code cleaner and prevents null pointer errors.
+When elements are added to me, I create and return a new CTAVLNode containing the element, effectively growing the tree. I maintain height 0 and am always balanced
 "
 Class {
 	#name : 'CTAVLNilNode',

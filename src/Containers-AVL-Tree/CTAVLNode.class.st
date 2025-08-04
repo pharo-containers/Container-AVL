@@ -1,19 +1,7 @@
 "
-AVLNode represents a node in an AVL tree.
-
-An AVL tree is a self-balancing binary search tree where the heights of the two child subtrees of every node differ by at most one. The `AVLNode` class extends the `AVLAbstractNode` class and provides the implementation of actual nodes within the AVL tree.
-
-AVLNode instances hold a `contents` instance variable. These nodes are organized to keep the tree balanced, ensuring efficient operations like insertion, deletion, and search.
-
-This class should not be used directly; instead use `AVLTree`.
-
-Instance Variables:
-- contents: The value associated with this node.
-- left: The left child node.
-- right: The right child node.
-
-Author: Milton Mamani
-Date: October 20, 2023
+I represent a node in an AVL Tree.
+I extend the functionality of a standard BST node by storing my height and performing self-balancing rotations after any modification (add or remove) to ensure the tree's height balance is maintained.
+The AVL invariant I maintain is: |height(left) - height(right)| <= 1
 "
 Class {
 	#name : 'CTAVLNode',

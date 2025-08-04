@@ -1,5 +1,9 @@
 "
-An AVLTest is a test class for testing the behavior of AVL
+I test the AVL Tree implementation (CTAVLTree).
+I verify correctness of all tree operations including insertion, deletion, search, traversals, and collection protocol methods. I test edge cases like empty trees, single nodes, and complex removal scenarios.
+I ensure the AVL tree maintains both BST ordering property and AVL balance property through all operations, including automatic rebalancing via rotations.
+I test all four rotation cases and verify O(log n) height guarantees.
+
 "
 Class {
 	#name : 'CTAVLTreeTest',

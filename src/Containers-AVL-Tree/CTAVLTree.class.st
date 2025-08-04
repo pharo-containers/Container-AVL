@@ -1,25 +1,15 @@
 "
-AVLTree is an implementation of a self-balancing AVL (Adelson-Velsky and Landis) binary search tree.
-
-An AVL tree is a binary search tree in which the heights of the two child subtrees of every node differ by at most one. This self-balancing property ensures that the tree remains approximately balanced, leading to efficient insertion, deletion, and search operations. The instances of `AVLTree` uses AVLNode to manage the overall structure of the AVL tree =,
-
-`AVLTree` is a generic tree that can store comparable objects. It uses `AVLNode` instances to represent the nodes within the tree. 
-
+I represent an AVL Tree, a self-balancing binary search tree.
+I maintain the BST property (left < node < right) while also ensuring that the height difference between the left and right subtrees of any node is at most 1. This balancing act guarantees O(log n) worst-case performance for all primary operations.
+My public API is designed to be polymorphic with CTBinarySearchTree and includes a rich set of collection methods for enumeration, searching, and accessing.
 Usage:
-    To use `AVLTree`, create an instance of the class and then use the provided methods to insert, remove, or search for elements within the tree. The tree will automatically self-balance as elements are added or removed.
-
-Example:
-```
-| tree |
-tree := AVLTree new.
-tree add: 41.
-tree add: 87.
-tree add: 20.
-tree remove: 87.
-tree
-```
-Author: Milton
-Date: October 20, 2023
+    tree := CTAVLTree new.
+    tree addAll: #(50 30 70 20 40 60 80).
+    tree asArray. => #(20 30 40 50 60 70 80)
+    tree height. => 3
+    tree first. => 20
+    tree includes: 30. => true
+    tree elementsFrom: 30 to: 60. => #(30 40 50 60)
 "
 Class {
 	#name : 'CTAVLTree',

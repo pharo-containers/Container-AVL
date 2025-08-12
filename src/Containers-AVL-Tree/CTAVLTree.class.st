@@ -36,6 +36,21 @@ CTAVLTree >> addAll: aCollection [
 	^ aCollection
 ]
 
+{ #category : 'accessing' }
+CTAVLTree >> allChildren [
+
+	| currentNode nodesToVisit children |
+	children := Set new.
+	nodesToVisit := LinkedList with: root.
+
+	[ nodesToVisit isNotEmpty ] whileTrue: [ 
+		currentNode := nodesToVisit removeFirst.
+		children add: currentNode.
+		nodesToVisit addAll: (currentNode children reject: #isNilNode) ].
+
+	^ children
+]
+
 { #category : 'enumerating' }
 CTAVLTree >> anySatisfy: aBlock [
 

@@ -43,6 +43,12 @@ CTAVLNode >> balanceFactor [
 ]
 
 { #category : 'accessing' }
+CTAVLNode >> children [
+
+	^ { left . right }
+]
+
+{ #category : 'accessing' }
 CTAVLNode >> contents [
 
 	^ contents
@@ -135,6 +141,12 @@ CTAVLNode >> initialize [
 	left := CTAVLNilNode new parent: self.
 	right := CTAVLNilNode new parent: self.
 	height := 1
+]
+
+{ #category : 'testing' }
+CTAVLNode >> isBalanced [
+
+	^ (left height - right height) abs <= 1
 ]
 
 { #category : 'testing' }
@@ -298,7 +310,7 @@ CTAVLNode >> successorOf: anObject [
 { #category : 'private' }
 CTAVLNode >> updateHeight [
 
-height := 1 + (left height max: right height)
+	height := 1 + (left height max: right height)
 ]
 
 { #category : 'private' }

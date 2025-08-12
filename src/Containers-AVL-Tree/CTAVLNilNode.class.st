@@ -102,6 +102,12 @@ CTAVLNilNode >> isLeaf [
 	^ false
 ]
 
+{ #category : 'testing' }
+CTAVLNilNode >> isNilNode [
+
+	^ true
+]
+
 { #category : 'enumerating' }
 CTAVLNilNode >> postOrderDo: aBlock [
 

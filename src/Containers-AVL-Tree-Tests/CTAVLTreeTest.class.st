@@ -39,6 +39,16 @@ CTAVLTreeTest >> testAddSingleElement [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testAllChildren [
+
+	| elements |
+	elements := (1 to: 10000) collect: [ :i | Random new nextIntegerBetween: 1 and: 100000000 ].
+	tree addAll: elements.
+
+	self assertCollection: (tree allChildren collect: #contents) hasSameElements: elements
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testAnySatisfy [
 
 	tree addAll: #(50 30 70 20 40).

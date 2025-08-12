@@ -23,8 +23,7 @@ BaselineOfContainersAVLTree >> baseline: spec [
 
 		"Groups"
 		spec
-			group: 'Core'
-			with: #( 'Containers-AVL-Tree' 'Containers-AVL-Tree-Inspector' );
+			group: 'Core' with: #( 'Containers-AVL-Tree' 'Containers-AVL-Tree-Inspector' );
 			group: 'Tests' with: #( 'Containers-AVL-Tree-Tests' ).
 
 		spec group: 'default' with: #( 'Core' 'Tests' ) ]

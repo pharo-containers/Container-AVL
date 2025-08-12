@@ -29,6 +29,12 @@ CTAVLAbstractNode >> balanceFactor [
 ]
 
 { #category : 'accessing' }
+CTAVLAbstractNode >> children [
+
+	^ {  }
+]
+
+{ #category : 'accessing' }
 CTAVLAbstractNode >> contents [
 
 	^ self subclassResponsibility 
@@ -96,6 +102,12 @@ CTAVLAbstractNode >> inOrderDo: aBlock [
 ]
 
 { #category : 'testing' }
+CTAVLAbstractNode >> isBalanced [
+
+	^ false
+]
+
+{ #category : 'testing' }
 CTAVLAbstractNode >> isEmpty [
 
 	^ self subclassResponsibility
@@ -105,6 +117,12 @@ CTAVLAbstractNode >> isEmpty [
 CTAVLAbstractNode >> isLeaf [ 
 
 	^ self subclassResponsibility 
+]
+
+{ #category : 'testing' }
+CTAVLAbstractNode >> isNilNode [
+
+	^ false
 ]
 
 { #category : 'accessing' }

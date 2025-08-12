@@ -117,7 +117,7 @@ CTAVLTreeVisualizer >> readNumber [
 { #category : 'hooks' }
 CTAVLTreeVisualizer >> renderIn: aCanvas [
 	| children |
-	children := tree allChildren collect: [ :child | self createNode: child ].
+	children := tree allChildren collect: [ :child | self createNode: child ] as: Array.
 	aCanvas addAll: children.
 	RSLineBuilder line
 		withBorderAttachPoint;

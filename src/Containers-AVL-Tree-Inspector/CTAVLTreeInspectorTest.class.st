@@ -12,7 +12,7 @@ CTAVLTreeInspectorTest >> testCreateCanvas [
 	tree := tree := CTAVLTree new.
 	tree addAll: { 4. 2. 3. 10 }.
 	
-	presenter := tree inspectorCanvas:  SpPresenterBuilder new.
+	presenter := tree inspectorCanvas: CTMockSpecBuilder new.
 	self assert: presenter isPresenter.
 	self assert: presenter canvas nodes size equals: tree size.
 ]

@@ -92,15 +92,6 @@ CTAVLTree >> collect: aBlock [
 	^ result
 ]
 
-{ #category : 'copying' }
-CTAVLTree >> copy [
-
-	| newTree |
-	newTree := self class new.
-	self inOrderDo: [ :each | newTree add: each ].
-	^ newTree
-]
-
 { #category : 'enumerating' }
 CTAVLTree >> detect: aBlock ifNone: absentBlock [
 
@@ -234,6 +225,12 @@ CTAVLTree >> isEmpty [
 CTAVLTree >> last [
 	
 	^ self findMax
+]
+
+{ #category : 'copying' }
+CTAVLTree >> postCopy [
+	super postCopy.
+	root := root copy.
 ]
 
 { #category : 'enumerating' }

@@ -60,19 +60,6 @@ CTAVLNode >> contents: anObject [
 	contents := anObject
 ]
 
-{ #category : 'copying' }
-CTAVLNode >> copy [
-	| newNode |
-	newNode := self class new.
-	newNode contents: contents.
-	newNode left: left copy.
-	newNode right: right copy.
-
-	newNode instVarNamed: 'height' put: height. 
-
-	^ newNode
-]
-
 { #category : 'enumerating' }
 CTAVLNode >> elementsFrom: min to: max into: aCollection [
 
@@ -184,6 +171,14 @@ CTAVLNode >> left: aNode [
 
 	left := aNode.
 	aNode ifNotNil: [ aNode parent: self ]
+]
+
+{ #category : 'copying' }
+CTAVLNode >> postCopy [
+	super postCopy.
+	
+	left isNilNode ifFalse: [ left := left copy ].
+	right isNilNode ifFalse: [ right := right copy ]
 ]
 
 { #category : 'enumerating' }

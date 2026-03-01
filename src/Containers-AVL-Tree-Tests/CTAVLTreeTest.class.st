@@ -149,6 +149,21 @@ CTAVLTreeTest >> testCopyLargeTree [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testCopyLeafNode [
+	| node copiedNode |
+	node := CTAVLNode new contents: 42.
+	
+	copiedNode := node copy.
+	
+	self assert: copiedNode contents equals: 42.
+	self deny: node == copiedNode.
+	
+	self assert: copiedNode height equals: 1.
+	self assert: copiedNode left isNilNode.
+	self assert: copiedNode right isNilNode
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testCopySingleNode [
 	| copiedTree |
 	

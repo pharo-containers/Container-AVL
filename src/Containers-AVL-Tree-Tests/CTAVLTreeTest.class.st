@@ -41,16 +41,11 @@ CTAVLTreeTest >> testAddSingleElement [
 { #category : 'tests' }
 CTAVLTreeTest >> testAllChildren [
 	
-	tree addAll: #(20 10 30).
-	
-	self assert: tree allChildren size equals: 1.
-	self assert: tree allChildren first contents equals: 20.
-	
-	self assert: tree root allChildren size equals: 2.
-	self assert: (tree root allChildren collect: #contents) asArray equals: #(10 30).
-	
-	self assert: tree root left allChildren isEmpty.
-	self assert: tree root right allChildren isEmpty.
+	| elements |
+	elements := (1 to: 10000) collect: [ :i | Random new nextIntegerBetween: 1 and: 100000000 ].
+	tree addAll: elements.
+
+	self assertCollection: (tree allChildren collect: #contents) hasSameElements: elements
 ]
 
 { #category : 'tests' }

@@ -36,13 +36,6 @@ CTAVLTree >> addAll: aCollection [
 	^ aCollection
 ]
 
-{ #category : 'accessing' }
-CTAVLTree >> allChildren [
-	^ root isNilNode
-		ifTrue: [ #() ]
-		ifFalse: [ { root } ]
-]
-
 { #category : 'enumerating' }
 CTAVLTree >> anySatisfy: aBlock [
 

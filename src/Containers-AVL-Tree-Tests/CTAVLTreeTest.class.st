@@ -40,7 +40,7 @@ CTAVLTreeTest >> testAddSingleElement [
 
 { #category : 'tests' }
 CTAVLTreeTest >> testAllChildren [
-
+	
 	| elements |
 	elements := (1 to: 10000) collect: [ :i | Random new nextIntegerBetween: 1 and: 100000000 ].
 	tree addAll: elements.

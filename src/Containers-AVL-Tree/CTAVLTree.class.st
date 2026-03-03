@@ -38,17 +38,19 @@ CTAVLTree >> addAll: aCollection [
 
 { #category : 'accessing' }
 CTAVLTree >> allChildren [
-
-	| currentNode nodesToVisit children |
-	children := Set new.
-	nodesToVisit := LinkedList with: root.
-
-	[ nodesToVisit isNotEmpty ] whileTrue: [ 
-		currentNode := nodesToVisit removeFirst.
-		children add: currentNode.
-		nodesToVisit addAll: (currentNode children reject: #isNilNode) ].
-
-	^ children
+	| allNodes queue currentNode |
+	allNodes := OrderedCollection new.
+	self root isNilNode ifTrue: [ ^ allNodes ].
+	
+	queue := OrderedCollection with: self root.
+	[ queue isNotEmpty ] whileTrue: [ 
+		currentNode := queue removeFirst.
+		allNodes add: currentNode.
+		currentNode left isNilNode ifFalse: [ queue add: currentNode left ].
+		currentNode right isNilNode ifFalse: [ queue add: currentNode right ] 
+	].
+	
+	^ allNodes
 ]
 
 { #category : 'enumerating' }

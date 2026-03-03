@@ -1,23 +1,6 @@
 Extension { #name : 'CTAVLTree' }
 
 { #category : '*Containers-AVL-Tree-Inspector' }
-CTAVLTree >> allChildren [
-	| allNodes queue currentNode |
-	allNodes := OrderedCollection new.
-	self root isNilNode ifTrue: [ ^ allNodes ].
-	
-	queue := OrderedCollection with: self root.
-	[ queue isNotEmpty ] whileTrue: [ 
-		currentNode := queue removeFirst.
-		allNodes add: currentNode.
-		currentNode left isNilNode ifFalse: [ queue add: currentNode left ].
-		currentNode right isNilNode ifFalse: [ queue add: currentNode right ] 
-	].
-	
-	^ allNodes
-]
-
-{ #category : '*Containers-AVL-Tree-Inspector' }
 CTAVLTree >> inspectorCanvas: aBuilder [
 	<inspectorPresentationOrder: 90 title: 'AVL'>
 	

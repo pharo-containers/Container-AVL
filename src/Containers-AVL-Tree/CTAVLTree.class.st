@@ -36,6 +36,23 @@ CTAVLTree >> addAll: aCollection [
 	^ aCollection
 ]
 
+{ #category : 'accessing' }
+CTAVLTree >> allChildren [
+	| allNodes queue currentNode |
+	allNodes := OrderedCollection new.
+	self root isNilNode ifTrue: [ ^ allNodes ].
+	
+	queue := OrderedCollection with: self root.
+	[ queue isNotEmpty ] whileTrue: [ 
+		currentNode := queue removeFirst.
+		allNodes add: currentNode.
+		currentNode left isNilNode ifFalse: [ queue add: currentNode left ].
+		currentNode right isNilNode ifFalse: [ queue add: currentNode right ] 
+	].
+	
+	^ allNodes
+]
+
 { #category : 'enumerating' }
 CTAVLTree >> anySatisfy: aBlock [
 

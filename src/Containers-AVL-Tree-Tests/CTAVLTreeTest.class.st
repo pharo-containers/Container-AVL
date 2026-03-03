@@ -120,6 +120,93 @@ CTAVLTreeTest >> testCopy [
 ]
 
 { #category : 'tests' }
+CTAVLTreeTest >> testCopyEmptyTree [
+	| copiedTree |
+	
+	copiedTree := tree copy.
+	
+	self assert: copiedTree isEmpty.
+	self assert: copiedTree size equals: 0.
+	self assert: copiedTree height equals: 0.
+	
+	self deny: copiedTree == tree.
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCopyLargeTree [
+	| copiedTree elements |
+	
+	elements := (1 to: 1000) asArray shuffled.
+	tree addAll: elements.
+	
+	copiedTree := tree copy.
+	
+	self assert: copiedTree size equals: 1000.
+	self assert: copiedTree height equals: tree height.
+	self assert: copiedTree validate.
+	
+	self assert: copiedTree asArray equals: tree asArray.
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCopyLeafNode [
+	| node copiedNode |
+	node := CTAVLNode new contents: 42.
+	
+	copiedNode := node copy.
+	
+	self assert: copiedNode contents equals: 42.
+	self deny: node == copiedNode.
+	
+	self assert: copiedNode height equals: 1.
+	self assert: copiedNode left isNilNode.
+	self assert: copiedNode right isNilNode
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCopySingleNode [
+	| copiedTree |
+	
+	tree add: 42.
+	copiedTree := tree copy.
+	
+	self assert: copiedTree size equals: 1.
+	self assert: copiedTree height equals: 1.
+	self assert: copiedTree root contents equals: 42.
+	
+	self deny: copiedTree root == tree root.
+	self assert: copiedTree validate.
+]
+
+{ #category : 'tests' }
+CTAVLTreeTest >> testCopyStructureAndIsolation [
+	| copiedTree |
+	
+	tree addAll: #(50 30 70 20 40 60 80).
+	copiedTree := tree copy.
+	
+	self assert: copiedTree size equals: tree size.
+	self assert: copiedTree height equals: tree height.
+	self assert: copiedTree asArray equals: tree asArray.
+	self assert: copiedTree validate.
+	
+	self deny: copiedTree root == tree root.
+	self deny: copiedTree root left == tree root left.
+	
+	copiedTree add: 99.
+	copiedTree remove: 20.
+	
+	self assert: (copiedTree includes: 99).
+	self deny: (tree includes: 99).
+	
+	self deny: (copiedTree includes: 20).
+	self assert: (tree includes: 20).
+	
+	self assert: tree validate.
+	self assert: copiedTree validate.
+]
+
+{ #category : 'tests' }
 CTAVLTreeTest >> testDetect [
 
 	| found |

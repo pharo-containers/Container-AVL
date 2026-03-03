@@ -173,6 +173,14 @@ CTAVLNode >> left: aNode [
 	aNode ifNotNil: [ aNode parent: self ]
 ]
 
+{ #category : 'copying' }
+CTAVLNode >> postCopy [
+	super postCopy.
+	
+	left isNilNode ifFalse: [ left := left copy ].
+	right isNilNode ifFalse: [ right := right copy ]
+]
+
 { #category : 'enumerating' }
 CTAVLNode >> postOrderDo: aBlock [
 

@@ -37,6 +37,11 @@ CTAVLNilNode >> contents: anObject [
 	"Do nothing for nil node"
 ]
 
+{ #category : 'copying' }
+CTAVLNilNode >> copy [
+	^ self class new
+]
+
 { #category : 'enumerating' }
 CTAVLNilNode >> elementsFrom: min to: max into: aCollection [
 

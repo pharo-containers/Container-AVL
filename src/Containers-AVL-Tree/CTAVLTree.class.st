@@ -40,14 +40,13 @@ CTAVLTree >> addAll: aCollection [
 CTAVLTree >> allChildren [
 	| allNodes queue currentNode |
 	allNodes := OrderedCollection new.
-	self root isNilNode ifTrue: [ ^ allNodes ].
+	self root isEmpty ifTrue: [ ^ allNodes ]. 
 	
 	queue := OrderedCollection with: self root.
 	[ queue isNotEmpty ] whileTrue: [ 
 		currentNode := queue removeFirst.
 		allNodes add: currentNode.
-		currentNode left isNilNode ifFalse: [ queue add: currentNode left ].
-		currentNode right isNilNode ifFalse: [ queue add: currentNode right ] 
+		queue addAll: currentNode children 
 	].
 	
 	^ allNodes
@@ -231,8 +230,8 @@ CTAVLTree >> last [
 
 { #category : 'copying' }
 CTAVLTree >> postCopy [
-	super postCopy.
-	root := root copy.
+    super postCopy.
+    root := root copy.
 ]
 
 { #category : 'enumerating' }

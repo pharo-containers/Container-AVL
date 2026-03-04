@@ -119,12 +119,6 @@ CTAVLAbstractNode >> isLeaf [
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'testing' }
-CTAVLAbstractNode >> isNilNode [
-
-	^ false
-]
-
 { #category : 'accessing' }
 CTAVLAbstractNode >> parent [
 

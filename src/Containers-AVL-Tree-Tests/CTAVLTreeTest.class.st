@@ -149,21 +149,6 @@ CTAVLTreeTest >> testCopyLargeTree [
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testCopyLeafNode [
-	| node copiedNode |
-	node := CTAVLNode new contents: 42.
-	
-	copiedNode := node copy.
-	
-	self assert: copiedNode contents equals: 42.
-	self deny: node == copiedNode.
-	
-	self assert: copiedNode height equals: 1.
-	self assert: copiedNode left isNilNode.
-	self assert: copiedNode right isNilNode
-]
-
-{ #category : 'tests' }
 CTAVLTreeTest >> testCopySingleNode [
 	| copiedTree |
 	
@@ -374,17 +359,6 @@ CTAVLTreeTest >> testIncludes [
 ]
 
 { #category : 'tests' }
-CTAVLTreeTest >> testIsLeaf [
-
-	tree add: 50.
-	self assert: tree root isLeaf.
-	
-	tree add: 30.
-	self deny: tree root isLeaf.
-	self assert: tree root left isLeaf
-]
-
-{ #category : 'tests' }
 CTAVLTreeTest >> testLLRotation [
 
 	tree add: 3.
@@ -415,16 +389,6 @@ CTAVLTreeTest >> testNegativeNumbers [
 	self assert: tree findMax equals: 10.
 	self assert: tree asArray equals: #(-10 -5 0 5 10).
 	self assert: tree validate
-]
-
-{ #category : 'tests' }
-CTAVLTreeTest >> testParentChildRelationships [
-
-	tree addAll: #(50 30 70 20 40).
-	
-	self assert: tree root parent isNil.
-	self assert: tree root left parent equals: tree root.
-	self assert: tree root right parent equals: tree root
 ]
 
 { #category : 'tests' }

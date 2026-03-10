@@ -44,8 +44,11 @@ CTAVLNode >> balanceFactor [
 
 { #category : 'accessing' }
 CTAVLNode >> children [
-
-	^ { left . right }
+	| validChildren |
+	validChildren := OrderedCollection new: 2.
+	left isEmpty ifFalse: [ validChildren add: left ].
+	right isEmpty ifFalse: [ validChildren add: right ].
+	^ validChildren asArray
 ]
 
 { #category : 'accessing' }
@@ -175,10 +178,10 @@ CTAVLNode >> left: aNode [
 
 { #category : 'copying' }
 CTAVLNode >> postCopy [
-	super postCopy.
-	
-	left isNilNode ifFalse: [ left := left copy ].
-	right isNilNode ifFalse: [ right := right copy ]
+    super postCopy.
+
+    left := left copy.
+    right := right copy
 ]
 
 { #category : 'enumerating' }
